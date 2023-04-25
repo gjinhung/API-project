@@ -20,7 +20,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: "Owners"
-        }
+        },
+        onDelete: "CASCADE",
       },
       address: {
         type: Sequelize.STRING,
@@ -45,12 +46,20 @@ module.exports = {
       lat: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        
+        validate: {
+          min: -90,
+          max: 90,
+          isNumeric: true
+        }
       },
       Ing: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        
+        validate: {
+          min: -180,
+          max: 180,
+          isNumeric: true
+        }
       },
       name: {
         type: Sequelize.STRING,
@@ -63,7 +72,7 @@ module.exports = {
         
       },
       price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         
       },
