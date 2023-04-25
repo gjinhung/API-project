@@ -18,6 +18,7 @@ module.exports = {
       spotld: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: "CASCADE",
         references: {
           model: "Spots"
         }
@@ -25,6 +26,7 @@ module.exports = {
       userld: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: "CASCADE",
         references: {
           model: "Users"
         }

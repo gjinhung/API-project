@@ -17,6 +17,7 @@ module.exports = {
       },
       spotld: {
         type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         references: {
           model: "Spots"
         }
