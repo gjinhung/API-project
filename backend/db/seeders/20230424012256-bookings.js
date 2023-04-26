@@ -1,6 +1,6 @@
 'use strict';
 
-let options = { tableName: "Users"}
+let options = { tableName: "Bookings"}
 if (process.env.NODE_ENV === "production"){
   options.schema = process.env.SCHEMA;
   }
@@ -29,23 +29,23 @@ module.exports = {
       for (let bookingInfo of bookings) {
         const { startDate, endDate} = bookingInfo;
         const foundUser = await User.findOne({
-          where: { username: bookingInfo.owner}
+          where: { username: bookingInfo.user}
         });
         const foundSpot = await Spot.findOne({
-          where: { name: bookings.spot}
-        })
+          where: { name: bookingInfo.spot}
+        });
+        console.log(bookingInfo.spot);
         await Booking.create({
           startDate,
           endDate,
-          spotid: foundSpot.id,
-          userId: foundUser.id
+          userId: foundUser.id,
+          spotId: foundSpot.id
         });
-      
       }
     } catch(err) {
       console.error(err);
       throw err;
-    }
+    }  
   },
 
   async down (queryInterface, Sequelize) {

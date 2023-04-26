@@ -12,22 +12,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Review.hasMany(models.ReviewImage, {foreignKey: "reviewId"});
       Review.belongsTo(models.User, {foreignKey: "userId"});
-      Review.belongsTo(models.Spots, {reference: "spotId"})
+      Review.belongsTo(models.Spot, {foreignKey: "spotId"})
     }
   }
   Review.init({
-    userld: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false},
-    spotld: {
+    spotId: {
       type: DataTypes.INTEGER,
       allowNull: false},
     review: DataTypes.STRING,
     stars: {
       type: DataTypes.INTEGER,
-      allowNull: false},
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+      allowNull: false}
   }, {
     sequelize,
     modelName: 'Review',

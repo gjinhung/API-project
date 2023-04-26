@@ -15,11 +15,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ownerld: {
+      ownerId: {
         allowNull:false,
         type: Sequelize.INTEGER,
         references: {
-          model: "Owners"
+          model: "Users"
         },
         onDelete: "CASCADE",
       },
@@ -44,7 +44,7 @@ module.exports = {
         
       },
       lat: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         validate: {
           min: -90,
@@ -52,8 +52,8 @@ module.exports = {
           isNumeric: true
         }
       },
-      Ing: {
-        type: Sequelize.INTEGER,
+      lng: {
+        type: Sequelize.STRING,
         allowNull: false,
         validate: {
           min: -180,
@@ -89,7 +89,7 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
       }
-    });
+    },options);
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "Spots";

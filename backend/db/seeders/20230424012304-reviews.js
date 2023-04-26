@@ -25,6 +25,12 @@ if (process.env.NODE_ENV === "production"){
       spot: "Cerulean Gym",
       review: "Too much water, my pokemon didn't like that",
       stars: 1
+    },
+    {
+      user: "brockharrison",
+      spot: "Ash's House",
+      review: "Very clean, except for the one giant mouse running around",
+      stars: 5
     }
   ]
 
@@ -38,15 +44,11 @@ module.exports = {
           where: { name: reviewInfo.spot }
         });
         const foundUser = await User.findOne({
-          where: { user: reviewInfo.user}
+          where: { username: reviewInfo.user}
         });
-        const foundImage = await ReviewImage.findOne({
-          where: { reviewId: reviewInfo.spot}
-        })
         await Review.create({
           review,
           stars,
-          reviewImg: foundImage ? foundImage.url : null,
           spotId: foundSpot.id,
           userId: foundUser.id,
         });

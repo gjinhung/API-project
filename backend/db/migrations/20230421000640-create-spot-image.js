@@ -15,7 +15,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      spotld: {
+      spotId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         references: {
@@ -38,7 +38,7 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP")
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "SpotImages";
