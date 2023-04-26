@@ -35,7 +35,7 @@ module.exports = {
         });
         await SpotImage.create({
           url,
-          spotId: foundUser.id
+          spotId: foundSpot.id
         });
       
       }

@@ -82,11 +82,6 @@ app.use((err, _req, _res, next) => {
       stack: isProduction ? null : err.stack
     });
   });
-
-
-  app.use('/bookings', require('./routes/bookings'));
-  app.use('/reviews', require('./routes/reviews'));
-  app.use('/spots', require('./routes/spots'));
   
 
 module.exports = app; 
