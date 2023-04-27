@@ -76,7 +76,7 @@ module.exports = {
         allowNull: false,
         
       },
-      previewlmg: {
+      previewImg: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {

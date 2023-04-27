@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === "production"){
   options.schema = process.env.SCHEMA;
   }
 
-  const { Spot, User } = require('../models');
+  const { Spot, User, SpotImage } = require('../models');
 
   const spots = [
     {
@@ -55,7 +55,6 @@ module.exports = {
     try {
       for (let spotInfo of spots) {
         const { address, city, state, country, lat, lng, name, description, price, previewImg} = spotInfo;
-
         const foundUser = await User.findOne({
           where: { username: spotInfo.owner}
         });
