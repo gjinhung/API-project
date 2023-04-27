@@ -34,7 +34,6 @@ module.exports = {
         const foundSpot = await Spot.findOne({
           where: { name: bookingInfo.spot}
         });
-        console.log(bookingInfo.spot);
         await Booking.create({
           startDate,
           endDate,

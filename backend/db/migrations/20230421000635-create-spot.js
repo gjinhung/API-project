@@ -76,7 +76,11 @@ module.exports = {
         allowNull: false,
         
       },
-      previewlmg: {
+      avgRating: {
+        type: Sequelize.DECIMAL,
+        defaultValue: 0
+      },
+      previewImg: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {

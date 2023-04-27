@@ -11,15 +11,15 @@ if (process.env.NODE_ENV === "production"){
 
   const spotImages = [
     {
-      review: "Cerulean Gym",
+      spot: "Cerulean Gym",
       url: "https://archives.bulbagarden.net/media/upload/8/80/Cerulean_Gym_anime.png"
     },
     {
-      review: "Pewter Gym",
+      spot: "Pewter Gym",
       url: "https://archives.bulbagarden.net/media/upload/6/63/Pewter_Gym_Battlefield.png"
     },
     {
-      review: "Ash's House",
+      spot: "Ash's House",
       url: "https://satoshipedia.altervista.org/wp-content/uploads/2016/04/2wgymio.jpg.png"
     },
   ]
@@ -31,7 +31,7 @@ module.exports = {
       for (let spotImgInfo of spotImages) {
         const {url} = spotImgInfo;
         const foundSpot = await Spot.findOne({
-          where: { name: spotImgInfo.review}
+          where: { name: spotImgInfo.spot}
         });
         await SpotImage.create({
           url,

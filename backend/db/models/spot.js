@@ -67,15 +67,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    previewlmg: DataTypes.BOOLEAN
+    avgRating: {
+      type: DataTypes.DECIMAL,
+      defaultValue: 0
+    },
+    previewImg: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Spot',
-    defaultScope: {
-      attributes: {
-        exclude: ["createdAt", "previewImg", "updatedAt"]
-      }
-    }
   });
   return Spot;
 };
