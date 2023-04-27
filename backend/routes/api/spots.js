@@ -1,45 +1,56 @@
 const express = require('express');
 const router = express.Router();
 
-const {Spot} = require("../../db/models")
+const {Spot, SpotImage, Review} = require("../../db/models")
 
+//GET All Spots
   router.get('/',
   async (req, res) => {
+ 
     const allSpots = await Spot.findAll({
+        include: [
+            { model: SpotImage},
+        ]
     });
-    // allSpots.forEach(async (spot) => {
-    //     if(spot.previewImg){
-    //         previewImg = "something"
-    //     }
-    // })
-    allspots[1].previewImg = "N/A"
+
+    allSpots.forEach(async (spot) => {
+        let total = 0;
+        let count = 0
+        const review = await Review.findAll({
+            where: {spotId: spot.id},
+            raw: true
+        })
+        review.forEach(async (rev) => {
+            total += rev.stars;
+            count ++
+        })
+        spot.avgRating = total/count
+        await Spot.update(
+            {avgRating: spot.avgRating},
+            {where: {id: spot.id}}
+        )
+    })
+
     res.json(allSpots)
-  })
+  });
 
-// Get All Spots
-// router.get(
-//     '/',
-//     async (req, res) => {
-//         const allSpots = await Spot.findAll();
+  //GET Current User Spots
 
+  router.get(
+    '/current',
+    async (req, res) => {
+      const { user } = req;
+      if (user) {
+        const currentUser = await Spot.findByPk(user.id,{
+            include: [{
+                model: SpotImage
+            }]
+        })
+        
+        return res.json(currentUser);
+      } else return res.json({ user: null });
+    }
+  );
 
-
-//       const user = await User.create({ email, username, hashedPassword, firstName, lastName });
-  
-//       const safeUser = {
-//         id: user.id,
-//         firstName: user.firstName,
-//         lastName: user.lastName,
-//         email: user.email,
-//         username: user.username,
-//       };
-
-//       await setTokenCookie(res, safeUser);
-  
-//       return res.json({
-//         user: safeUser
-//       });
-//     }
-//   );
 
 module.exports = router;

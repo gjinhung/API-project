@@ -19,6 +19,7 @@ if (process.env.NODE_ENV === "production"){
       name: "Ash's House",
       description: "This house is where the player lives before beginning their journey.",
       price: "10",
+      avgRating: 0,
       previewImg: true
   },
   {
@@ -32,6 +33,7 @@ if (process.env.NODE_ENV === "production"){
     name: "Pewter Gym",
     description: "The Pewter Gym is the official Gym of Pewter City. It is based on Rock-type Pokémon",
     price: '20',
+    avgRating: 0,
     previewImg: true
   },
   {
@@ -45,6 +47,7 @@ if (process.env.NODE_ENV === "production"){
     name: "Cerulean Gym",
     description: "The Cerulean Gym is the official Gym of Cerulean City. It is based on Water-type Pokémon.",
     price: '30',
+    avgRating: 0,
     previewImg: true
   }
 ]
@@ -54,7 +57,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     try {
       for (let spotInfo of spots) {
-        const { address, city, state, country, lat, lng, name, description, price, previewImg} = spotInfo;
+        const { address, city, state, country, lat, lng, name, description, price, previewImg, avgRating} = spotInfo;
         const foundUser = await User.findOne({
           where: { username: spotInfo.owner}
         });
@@ -69,6 +72,7 @@ module.exports = {
           name,
           description,
           price,
+          avgRating,
           previewImg,
           ownerId: foundUser.id
         });
