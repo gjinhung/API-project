@@ -14,13 +14,13 @@ if (process.env.NODE_ENV === "production"){
       city: "Pallet Town",
       state: "Kanto",
       country: "USA",
-      lat: "35.546242",
-      lng: "139.450638",
+      lat: 35.546242,
+      lng: 139.450638,
       name: "Ash's House",
       description: "This house is where the player lives before beginning their journey.",
-      price: "10",
+      price: 30,
       avgRating: 0,
-      previewImg: true
+      previewImg: ""
   },
   {
     owner: "brockharrison",
@@ -28,13 +28,13 @@ if (process.env.NODE_ENV === "production"){
     city: "Pewter City",
     state: "Kanto",
     country: "USA",
-    lat: "36.392700",
-    lng: "139.072693", 
+    lat: 36.392700,
+    lng: 139.072693, 
     name: "Pewter Gym",
     description: "The Pewter Gym is the official Gym of Pewter City. It is based on Rock-type Pokémon",
-    price: '20',
+    price: 20,
     avgRating: 0,
-    previewImg: true
+    previewImg: ""
   },
   {
     owner: "mistywilliams",
@@ -42,13 +42,13 @@ if (process.env.NODE_ENV === "production"){
     city: "Cerulean City",
     state: "Kanto",
     country: "USA",
-    lat: "36.549980",
-    lng: "139.870010", 
+    lat: 36.549980,
+    lng: 139.870010, 
     name: "Cerulean Gym",
     description: "The Cerulean Gym is the official Gym of Cerulean City. It is based on Water-type Pokémon.",
-    price: '30',
+    price: 30,
     avgRating: 0,
-    previewImg: true
+    previewImg: ""
   }
 ]
 

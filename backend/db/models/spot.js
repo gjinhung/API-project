@@ -38,21 +38,19 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     lat: {
-      type: DataTypes.STRING,
+      type: DataTypes.DECIMAL(8,6),
       allowNull: false,
       validate: {
-        min: -180,
-        max: 180,
-        isNumeric: true
+        min: -90,
+        max: 90
       }
     },
     lng: {
-      type: DataTypes.STRING,
+      type: DataTypes.DECIMAL(9,6),
       allowNull: false,
       validate: {
         min: -180,
-        max: 180,
-        isNumeric: true
+        max: 180
       }
     },
     name: {
@@ -64,17 +62,25 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.DECIMAL,
       allowNull: false
     },
     avgRating: {
       type: DataTypes.DECIMAL,
       defaultValue: 0
     },
-    previewImg: DataTypes.BOOLEAN
+    previewImg: {
+      type: DataTypes.STRING,
+      defaultValue: "N/A"
+    }
   }, {
     sequelize,
     modelName: 'Spot',
+    defaultScope: {
+      attributes: {
+        exclude: ["avgRating", "previewImg"]
+      }
+    }
   });
   return Spot;
 };
