@@ -44,8 +44,7 @@ module.exports = {
         
       },
       lat: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.DECIMAL(8,6),
         validate: {
           min: -90,
           max: 90,
@@ -53,12 +52,10 @@ module.exports = {
         }
       },
       lng: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.DECIMAL(9,6),
         validate: {
           min: -180,
-          max: 180,
-          isNumeric: true
+          max: 180
         }
       },
       name: {
@@ -72,7 +69,7 @@ module.exports = {
         
       },
       price: {
-        type: Sequelize.STRING,
+        type: Sequelize.DECIMAL,
         allowNull: false,
         
       },
@@ -81,7 +78,8 @@ module.exports = {
         defaultValue: 0
       },
       previewImg: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING,
+        defaultValue: "N/A"
       },
       createdAt: {
         allowNull: false,

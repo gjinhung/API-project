@@ -28,6 +28,10 @@ module.exports = {
           isUrl: true
         }
       },
+      preview: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
