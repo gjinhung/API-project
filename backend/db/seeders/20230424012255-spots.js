@@ -61,7 +61,6 @@ module.exports = {
         const foundUser = await User.findOne({
           where: { username: spotInfo.owner}
         });
-        console.log();
         await Spot.create({
           address,
           city,
