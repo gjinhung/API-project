@@ -5,12 +5,6 @@ if (process.env.NODE_ENV === "production"){
   options.schema = process.env.SCHEMA;
   }
 
-  // const { Review, Spot, User, ReviewImage } = require('../models');
-
-  // const reviews = [
-    
-  // ]
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -40,26 +34,6 @@ module.exports = {
         review: "Very clean, except for the one giant mouse running around",
         stars: 5
       }
-    // try {
-    //   for (let reviewInfo of reviews) {
-    //     const { review, stars } = reviewInfo;
-    //     const foundSpot = await Spot.findOne({
-    //       where: { name: reviewInfo.spot }
-    //     });
-    //     const foundUser = await User.findOne({
-    //       where: { username: reviewInfo.user}
-    //     });
-    //     await Review.create({
-    //       review,
-    //       stars,
-    //       spotId: foundSpot.id,
-    //       userId: foundUser.id,
-    //     });
-    //   }
-    // } catch(err) {
-    //   console.error(err);
-    //   throw err;
-    // }
     ])
   },
 
