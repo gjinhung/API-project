@@ -32,14 +32,14 @@ module.exports = {
         }
       },
       startDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
         validate: {
           isDate: true
         }
       },
       endDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
         validate: {
           isDate: true

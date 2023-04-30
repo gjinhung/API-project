@@ -11,14 +11,14 @@ if (process.env.NODE_ENV === "production"){
     {
       user: "ashketchum",
       spot: "Cerulean Gym",
-      startDate: "January 1, 2024",
-      endDate: "January 7, 2024"
+      startDate: "2024-01-01",
+      endDate: "2024-01-07"
     },
     {
       user: "ashketchum",
       spot: "Pewter Gym",
-      startDate: "January 7, 2024",
-      endDate: "January 14, 2024"
+      startDate: "2024-01-07",
+      endDate: "2024-01-14"
     }
   ]
 
