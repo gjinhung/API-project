@@ -10,6 +10,9 @@ const validateReviewImg = [
     check('url')
         .isURL()
         .withMessage("URL is invalid"),
+    check('url')
+        .exists({ checkFalsy: true })
+        .withMessage("URL is required"),
         handleValidationErrors
 ]
 
@@ -52,9 +55,9 @@ router.post('/:reviewid/images', validateReviewImg, async (req, res) => {
     const id = req.params.reviewid;
     const {url} = req.body;
     const review = await Review.findByPk(id)
+    if(!review){return res.status(404).json({"message": "Review couldn't be found"})}
     if(!user) {return res.status(401).json({ "message": "Authentication required"})}
     if(review.userId !== user.id){return res.status(403).json({"message": "Forbidden"})}
-    if(!review){return res.status(404).json({"message": "Review couldn't be found"})}
     let count = 0
     const reviewImgs = await ReviewImage.findAll({where: {reviewId: id}})
     for (const rImg of reviewImgs) {
@@ -108,13 +111,41 @@ router.delete('/:reviewid', async (req, res) => {
         })
       }
       if (!user){return res.json(401).json({"message": "Authentication required"})}
-      if (user.id !== review.userId) {return res.json(404).json({"message": "Forbidden"})}
+      if (user.id !== review.userId) {return res.json(403).json({"message": "Forbidden"})}
             await review.destroy()
             return res.json({
               "message": "Successfully deleted"
             })
 })
 
+//Delete a Review Image
+router.delete('/:reviewid/image', async(req, res) => {
+    const {user} = req;
+    const id = req.params.reviewid;
+    const review = await Review.findByPk(id)
+  
+    if(!review){return res.status(404).json({"message": "Review Image couldn't be found"})}
+    if (!user) {return res.json(401, {"message": "Authentication required"})}
+    if (user.id !== review.userId) {return res.status(403).json({"message": "Forbidden"})}
+  
+    const img = await ReviewImage.findOne({where: {reviewId: review.id}
+    })
+    
+    await img.destroy()
+  
+    return res.json({
+      "message": "Successfully deleted"
+    })
+  })
 
+//Get all Review Images by Spot reviewId
+router.get('/:reviewid/image', async(req, res) => {
+    const id = req.params.reviewid;
+    const review = await Review.findByPk(id)
+    const allImg = await ReviewImage.findAll()
+
+    const img = await ReviewImage.findAll({where: {reviewId: review.id}})
+        return res.json(parseFloat(id))
+      })
 
 module.exports = router;

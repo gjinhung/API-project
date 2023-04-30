@@ -67,7 +67,7 @@ router.post(
         // err.title = 'Login failed';
         // err.errors = { credential: 'Invalid credentials' };
         // return next(err);
-        return res.json({"message": "Invalid credentials"})
+        return res.status(401).json({"message": "Invalid credentials"})
       }
 
       const safeUser = {
@@ -102,13 +102,22 @@ router.post(
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        username: user.username,
+        username: user.username
       };
 
-      await setTokenCookie(res, safeUser);
-  
+      const token = await setTokenCookie(res, safeUser);
+
+      const final = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+        token
+      };
+
       return res.json({
-        user: safeUser
+        user: final
       });
       
     });
