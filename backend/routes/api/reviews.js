@@ -107,11 +107,11 @@ router.delete('/:reviewid', async (req, res) => {
     const review = await Review.findByPk(id)
     if(!review){
         return res.status(404).json({
-          "message": "Review couldn't be found"
+          "message": "Spot couldn't be found"
         })
       }
       if (!user){return res.json(401).json({"message": "Authentication required"})}
-      if (user.id !== review.userId) {return res.status(403).json({"message": "Forbidden"})}
+      if (user.id !== review.userId) {return res.json(403).json({"message": "Forbidden"})}
             await review.destroy()
             return res.json({
               "message": "Successfully deleted"
@@ -119,17 +119,17 @@ router.delete('/:reviewid', async (req, res) => {
 })
 
 //Delete a Review Image
-router.delete('/:reviewid/image/:imageid', async(req, res) => {
+router.delete('/:reviewid/image', async(req, res) => {
     const {user} = req;
     const id = req.params.reviewid;
-    const imgId = req.params.imageid;
     const review = await Review.findByPk(id)
   
     if(!review){return res.status(404).json({"message": "Review Image couldn't be found"})}
     if (!user) {return res.json(401, {"message": "Authentication required"})}
     if (user.id !== review.userId) {return res.status(403).json({"message": "Forbidden"})}
   
-    const img = await ReviewImage.findOne({where: {reviewId: review.id, id: imgId}})
+    const img = await ReviewImage.findOne({where: {reviewId: review.id}
+    })
     
     await img.destroy()
   
@@ -145,7 +145,7 @@ router.get('/:reviewid/image', async(req, res) => {
     const allImg = await ReviewImage.findAll()
 
     const img = await ReviewImage.findAll({where: {reviewId: review.id}})
-        return res.json(img)
+        return res.json(parseFloat(id))
       })
 
 module.exports = router;

@@ -5,18 +5,18 @@ if (process.env.NODE_ENV === "production"){
   options.schema = process.env.SCHEMA;
   }
 
-  const { Booking, User } = require('../models');
+  const { Booking, User, Spot } = require('../models');
 
   const bookings = [
     {
       user: "ashketchum",
-      spotId: 3,
+      spot: "Cerulean Gym",
       startDate: "2024-01-01",
-      endDate:"2024-01-07"
+      endDate: "2024-01-07"
     },
     {
       user: "ashketchum",
-      spotId: 2,
+      spot: "Pewter Gym",
       startDate: "2024-01-07",
       endDate: "2024-01-14"
     }
@@ -27,15 +27,18 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     try {
       for (let bookingInfo of bookings) {
-        const { startDate, endDate, spotId} = bookingInfo;
+        const { startDate, endDate} = bookingInfo;
         const foundUser = await User.findOne({
           where: { username: bookingInfo.user}
+        });
+        const foundSpot = await Spot.findOne({
+          where: { name: bookingInfo.spot}
         });
         await Booking.create({
           startDate,
           endDate,
           userId: foundUser.id,
-          spotId
+          spotId: foundSpot.id
         });
       }
     } catch(err) {
