@@ -59,7 +59,7 @@ router.post('/:reviewid/images', validateReviewImg, async (req, res) => {
     if(!user) {return res.status(401).json({ "message": "Authentication required"})}
     if(review.userId !== user.id){return res.status(403).json({"message": "Forbidden"})}
     let count = 0
-    const reviewImgs = await ReviewImage.findAll({where: {reviewId: id}})
+    const reviewImgs = await ReviewImage.findAll({where: {reviewId: reviewid}})
     for (const rImg of reviewImgs) {
         count++
     }
