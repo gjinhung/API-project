@@ -10,10 +10,10 @@ options.schema = process.env.SCHEMA;
 module.exports = {
   async up(queryInterface, Sequelize) {
     try {
-      await queryInterface.addColumn('User', 'firstName', {
+      await queryInterface.addColumn('Users', 'firstName', {
         type: Sequelize.STRING
       });
-      await queryInterface.addColumn('User', 'lastName', {
+      await queryInterface.addColumn('Users', 'lastName', {
         type: Sequelize.STRING
       });
       return Promise.resolve();
@@ -23,8 +23,8 @@ module.exports = {
   },
 async down(queryInterface, Sequelize) {
   try{
-  await queryInterface.removeColumn('User', 'firstName');
-  await queryInterface.removeColumn('User', 'lastName');
+  await queryInterface.removeColumn('Users', 'firstName');
+  await queryInterface.removeColumn('Users', 'lastName');
   return Promise.resolve();
 } catch (e) {
   return Promise.reject(e);
