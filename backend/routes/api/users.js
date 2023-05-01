@@ -86,6 +86,12 @@ router.post(
     }
   );   
 
+  router.get(('/'), async (req, res) => {
+    const allUsers = await Users.findAll({})
+    return res.json(allUsers)
+  }
+  )
+
 // Sign up
 router.post(
     '',
