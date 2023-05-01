@@ -83,7 +83,7 @@ router.put('/:reviewid', validateEdit, async (req, res) => {
     const rev = await Review.findByPk(id);
     if(!rev){
         return res.status(404).json({
-          "message": "Spot couldn't be found"
+          "message": "Review couldn't be found"
         })
       }
     if(!user){
@@ -107,7 +107,7 @@ router.delete('/:reviewid', async (req, res) => {
     const review = await Review.findByPk(id)
     if(!review){
         return res.status(404).json({
-          "message": "Spot couldn't be found"
+          "message": "Review couldn't be found"
         })
       }
       if (!user){return res.json(401).json({"message": "Authentication required"})}
