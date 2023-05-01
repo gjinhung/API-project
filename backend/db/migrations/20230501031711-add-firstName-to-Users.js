@@ -29,4 +29,5 @@ async down(queryInterface, Sequelize) {
 } catch (e) {
   return Promise.reject(e);
 }
-};
+}
+}
