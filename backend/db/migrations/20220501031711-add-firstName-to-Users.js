@@ -8,7 +8,7 @@ options.schema = process.env.SCHEMA;
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn('User', 'firstName', {
+    await queryInterface.addColumn('Users', 'firstName', {
         type: Sequelize.STRING,
         allowNull: false
   },options)
