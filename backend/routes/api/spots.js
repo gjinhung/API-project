@@ -61,21 +61,6 @@ return true}),
   check('name')
     .isLength({ max: 49 })
     .withMessage('Name must be less than 50 characters'),
-  check('city')
-    .notEmpty()
-    .withMessage('City is required'),
-  check('state')
-    .notEmpty()
-    .withMessage('State is required'),
-  check('country')
-    .notEmpty()
-    .withMessage('Country is required'),
-  check('description')
-    .notEmpty()
-    .withMessage('Description is required'),
-  check('price')
-    .notEmpty()
-    .withMessage('Price per day is required'),
   handleValidationErrors
 ];
 
