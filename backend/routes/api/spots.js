@@ -47,18 +47,35 @@ const validateSpotCreate = [
 
 const validateSpotEdit = [
   check('lat')
-    .isFloat(
-      {min: -90,
-      max: 90})
-    .withMessage('Latitude is not valid'),
+    .custom((value, { req }) => {
+    if(value < -90 || value > 90){
+        throw new Error ("Latitude is not valid")
+    }
+return true}),
   check('lng')
-    .isFloat(
-    {min: -180,
-    max: 180})
-    .withMessage('Longitude is not valid'),
+  .custom((value, { req }) => {
+    if(value < -180 || value > 180){
+        throw new Error ("Longitude is not valid")
+    }
+return true}),
   check('name')
     .isLength({ max: 49 })
     .withMessage('Name must be less than 50 characters'),
+  check('city')
+    .notEmpty()
+    .withMessage('City is required'),
+  check('state')
+    .notEmpty()
+    .withMessage('State is required'),
+  check('country')
+    .notEmpty()
+    .withMessage('Country is required'),
+  check('description')
+    .notEmpty()
+    .withMessage('Description is required'),
+  check('price')
+    .notEmpty()
+    .withMessage('Price per day is required'),
   handleValidationErrors
 ];
 
