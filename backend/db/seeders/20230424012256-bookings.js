@@ -12,19 +12,18 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
   
     {
-      userId: 1,
       spotId: 3,
+      userId: 1,
       startDate: "2024-01-01",
       endDate:"2024-01-07"
     },
     {
-      userId: 1,
       spotId: 2,
+      userId: 1,
       startDate: "2024-01-07",
       endDate: "2024-01-14"
     }
-  ]
-    )
+  ], {});
   },
 
   async down (queryInterface, Sequelize) {
