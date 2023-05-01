@@ -432,7 +432,7 @@ router.get('/:spotid/reviews', async(req, res) => {
   },
   include: [
       {model: User,
-      attributes: ["id", "firstName", "lastname"]},
+      attributes: ["id", "firstName", "lastName"]},
       {model: ReviewImage, 
       attributes: ["id", "url"]}
   ]
