@@ -139,7 +139,7 @@ router.put('/:bookingid', validateBooking, async (req, res) => {
     if(booking.endDate < new Date().toJSON()){return res.status(403).json({"message": "Past bookings can't be modified"})}
 
     if(startDate) {booking.startDate = startDate};
-    if(endDate) {booking.startDate = endDate}
+    if(endDate) {booking.endDate = endDate}
 
     return res.json(booking)
 

@@ -97,7 +97,7 @@ async function update(allSpots) {
     spot.avgRating = total/count}
     if(prevImg){
     spot.previewImg = prevImg.url}
-    else{spot.previewImg = "N/A"}
+    else{spot.previewImg = "image url"}
 
     await spot.save()
 }
@@ -364,8 +364,11 @@ router.post(
       url,
       preview
     })
+
+    newid = newSpot.id
+
     return res.json({
-      id,
+      id: newid,
       url,
       preview
     })

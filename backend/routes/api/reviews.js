@@ -52,9 +52,9 @@ router.get('/current', async (req, res) => {
 // Add an Image to a Review based on the Review's id
 router.post('/:reviewid/images', validateReviewImg, async (req, res) => {
     const {user} = req
-    const id = req.params.reviewid;
+    const reviewid = req.params.reviewid;
     const {url} = req.body;
-    const review = await Review.findByPk(id)
+    const review = await Review.findByPk(reviewid)
     if(!review){return res.status(404).json({"message": "Review couldn't be found"})}
     if(!user) {return res.status(401).json({ "message": "Authentication required"})}
     if(review.userId !== user.id){return res.status(403).json({"message": "Forbidden"})}
@@ -66,7 +66,7 @@ router.post('/:reviewid/images', validateReviewImg, async (req, res) => {
     if (count > 10){
         return res.status(403).json({"message": "Maximum number of images for this resource was reached"})
     }
-    const newRevImg = await ReviewImage.create({reviewId: id, url });
+    const newRevImg = await ReviewImage.create({reviewId: reviewid, url });
 
     let result = ({
         id,
@@ -126,7 +126,7 @@ router.delete('/:reviewid/:imageid', async(req, res) => {
     const review = await Review.findByPk(id)
     const image = await ReviewImage.findOne({where: {id: imgid}})
     if(!image) {return res.status(404).json({"message": "Review Image couldn't be found"})}
-    if(!review) {return res.status(404).json({"message": "Review couldn't be found"})}
+    if(!review) {return res.status(404).json({"message": "Revieçw couldn't be found"})}
     if (!user) {return res.json(401, {"message": "Authentication required"})}
     if (user.id !== review.userId) {return res.status(403).json({"message": "Forbidden"})}
   
