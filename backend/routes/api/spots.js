@@ -92,12 +92,12 @@ async function update(allSpots) {
       where: {spotId: spot.id,
         preview: true},
       raw: true
-    });
+    });//find an image of a spot where the preview boolean is true
     if(total/count){
     spot.avgRating = total/count}
-    if(prevImg){
-    spot.previewImg = prevImg.url}
-    else{spot.previewImg = "image url"}
+    if(prevImg){  //if there is an old image marked true
+    spot.previewImg = prevImg.url} //the spot's img = url
+    else{prevImg.previewImg = "image url"}// if no one image marked true
 
     await spot.save()
 }
@@ -112,7 +112,31 @@ async function update(allSpots) {
         include: ["avgRating", "previewImg"]
       }
     });
-    await update(allSpots)
+    for (const spot of allSpots) {
+      let total = 0;
+      let count = 0
+      const review = await Review.findAll({
+          where: {spotId: spot.id},
+          raw: true
+      })
+      review.forEach(async (rev) => {
+          total += rev.stars;
+          count ++
+      })
+      
+      const prevImg = await SpotImage.findOne({
+        where: {spotId: spot.id,
+          preview: true},
+        raw: true
+      });//find an image of a spot where the preview boolean is true
+      if(total/count){
+      spot.avgRating = total/count}
+      if(prevImg){  //if there is an old image marked true
+      spot.previewImg = prevImg.url} //their img
+      else{spot.previewImg = "image url"}
+  
+      await spot.save()
+  }
     return res.json(allSpots)
   }
   let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
@@ -225,7 +249,31 @@ async function update(allSpots) {
     offset: size * (page - 1)
   })
 
-  await update(Spots)
+  for (const spot of Spots) {
+    let total = 0;
+    let count = 0
+    const review = await Review.findAll({
+        where: {spotId: spot.id},
+        raw: true
+    })
+    review.forEach(async (rev) => {
+        total += rev.stars;
+        count ++
+    })
+    
+    const prevImg = await SpotImage.findOne({
+      where: {spotId: spot.id,
+        preview: true},
+      raw: true
+    });//find an image of a spot where the preview boolean is true
+    if(total/count){
+    spot.avgRating = total/count}
+    if(prevImg){  //if there is an old image marked true
+    spot.previewImg = prevImg.url} //their img
+    else{spot.previewImg = "image url"}
+
+    await spot.save()
+}
 
 if(Object.keys(errors).length)
 {return res.status(400).json({"message": "Bad Request", errors})}
@@ -353,19 +401,20 @@ router.post(
     if(!user){return res.status(401).json({ "message": "Authentication required"})}
     if (user.id !== spot.ownerId) {return res.status(403).json({"message": "Forbidden"})}
     // console.log(spotImages)
-    if(preview){
+    if(preview){ //if preview is marked true
       spotImages.forEach((si) => {
-        si.preview = false
+        si.preview = false //change the rest to false
         si.save()
       })
     }
-    const newSpot = await SpotImage.create({
+
+    const newSpotImg = await SpotImage.create({
       spotId: id,
       url,
       preview
     })
 
-    newid = newSpot.id
+    newid = newSpotImg.id
 
     return res.json({
       id: newid,
@@ -481,10 +530,15 @@ router.delete('/:spotid/image', async(req, res) => {
   if (!user) {return res.json(401, {"message": "Authentication required"})}
   if (user.id !== spot.ownerId) {return res.status(403).json({"message": "Forbidden"})}
 
-  const img = await SpotImage.findOne({where: {spotId: spot.id}
+  const img = await SpotImage.findOne({where: {spotId: spot.id, preview: true}
   })
-
+  if (!img) {return res.status(500).json({"message": "This spot has no images"})}
   await img.destroy()
+
+  const nextTrue = await SpotImage.findOne({order: [ [ 'id', 'DESC' ]]})
+  nextTrue.preview = true
+
+  await nextTrue.save()
 
   return res.json({
     "message": "Successfully deleted"
