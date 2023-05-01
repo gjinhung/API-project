@@ -27,7 +27,7 @@ router.get('/current', async (req, res) => {
     const {user} = req;
     if(!user){return res.status(401).json({"message": "Authentication required"})}
     const Bookings = await Booking.findAll({
-        where: {userid: user.id}, 
+        where: {userId: user.id}, 
         include: [
             {model: Spot,
             attributes: {exclude: ['createdAt', "updatedAt", "description","avgRating"]}},
@@ -66,10 +66,10 @@ router.get('/spots/:spotid', async (req, res) => {
 router.post('/spots/:spotid', validateBooking, async (req, res) => {
     const {user} = req;
     const {startDate, endDate} = req.body
-    if(!spot){return res.status(404).json({"message": "Spot couldn't be found"})}
-    if(!user){return res.status(401).json({"message": "Authentication required"})}
     const spotid = req.params.spotid
     const spot = await Spot.findByPk(spotid);
+    if(!spot){return res.status(404).json({"message": "Spot couldn't be found"})}
+    if(!user){return res.status(401).json({"message": "Authentication required"})}
     //cannot belong to user
     if(spot.ownerId === user.id){
         return res.status(403).json({"message": "Owner is not allowed to reserve their own spot"})
@@ -139,7 +139,7 @@ router.put('/:bookingid', validateBooking, async (req, res) => {
     if(booking.endDate < new Date().toJSON()){return res.status(403).json({"message": "Past bookings can't be modified"})}
 
     if(startDate) {booking.startDate = startDate};
-    if(endDate) {booking.startDate = startDate}
+    if(endDate) {booking.startDate = endDate}
 
     return res.json(booking)
 

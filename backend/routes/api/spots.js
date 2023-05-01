@@ -443,10 +443,14 @@ return res.json({Reviews})
 //Create a Review for a Spot based on the Spot's id
 router.post('/:spotid/reviews', validateReviews, async(req, res, next) => {
   const {user} = req;
+  const {review, stars} = req.body;
   if(!user){
     return res.status(401).json({ "message": "Authentication required"})}
   const id = req.params.spotid;
-  const {review, stars} = req.body;
+  //Review from the current user already exists for the Spot
+  const rev = await Review.findOne({where: {spotId: id}})
+  if(rev.userId === user.id){
+    return res.status(500).json({ "message": "User already has a review for this spot"})}
 
   const newReview = await Review.create(
     {userId: user.id,

@@ -69,7 +69,7 @@ router.post('/:reviewid/images', validateReviewImg, async (req, res) => {
     const newRevImg = await ReviewImage.create({reviewId: id, url });
 
     let result = ({
-        reviewId: id,
+        id,
         url
     })
     res.json(result)
@@ -119,12 +119,14 @@ router.delete('/:reviewid', async (req, res) => {
 })
 
 //Delete a Review Image
-router.delete('/:reviewid/image', async(req, res) => {
+router.delete('/:reviewid/:imageid', async(req, res) => {
     const {user} = req;
     const id = req.params.reviewid;
+    const imgid = req.params.imageid;
     const review = await Review.findByPk(id)
-  
-    if(!review){return res.status(404).json({"message": "Review Image couldn't be found"})}
+    const image = await ReviewImage.findOne({where: {id: imgid}})
+    if(!image) {return res.status(404).json({"message": "Review Image couldn't be found"})}
+    if(!review) {return res.status(404).json({"message": "Review couldn't be found"})}
     if (!user) {return res.json(401, {"message": "Authentication required"})}
     if (user.id !== review.userId) {return res.status(403).json({"message": "Forbidden"})}
   
