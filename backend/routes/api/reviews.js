@@ -37,7 +37,7 @@ router.get('/current', async (req, res) => {
         },
         include: [
             {model: User,
-            attributes: ["id", "firstName", "lastname"]},
+            attributes: ["id", "firstName", "lastName"]},
             {model: Spot,
             attributes: {exclude: ['createdAt', "updatedAt", "description"]}},
             {model: ReviewImage, 
