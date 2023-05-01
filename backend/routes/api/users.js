@@ -87,7 +87,7 @@ router.post(
   );   
 
   router.get(('/'), async (req, res) => {
-    const allUsers = await Users.findAll({})
+    const allUsers = await User.findAll({})
     return res.json(allUsers)
   }
   )
