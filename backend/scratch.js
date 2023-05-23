@@ -12,22 +12,22 @@
 
 // console.log(uniqueChars);
 
-const arry = [1, 2, 1, 3, 4, 3, 5,20,3];
-const arr = []
-const hasMap = {}
+// const arry = [1, 2, 1, 3, 4, 3, 5,20,3];
+// const arr = []
+// const hasMap = {}
 
-arry.forEach(it => {
-    if(it in hasMap){
-        hasMap[it]++
-    }else{
-    hasMap[it] = 1
-    }
-})
+// arry.forEach(it => {
+//     if(it in hasMap){
+//         hasMap[it]++
+//     }else{
+//     hasMap[it] = 1
+//     }
+// })
 
-for(let key in hasMap){
-    if (hasMap[key] > 1){
-        arr.push(key)
-    }
-}
-console.log(arr)
-// Output: [1, 3]
+// for(let key in hasMap){
+//     if (hasMap[key] > 1){
+//         arr.push(key)
+//     }
+// }
+// console.log(arr)
+// // Output: [1, 3]

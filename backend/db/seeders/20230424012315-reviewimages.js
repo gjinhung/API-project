@@ -6,9 +6,6 @@ if (process.env.NODE_ENV === "production"){
   }
 
 /** @type {import('sequelize-cli').Migration} */
-
-// const { ReviewImage, Review } = require('../models');
-
 module.exports = {
   async up (queryInterface, Sequelize) {
     return queryInterface.bulkInsert(options, [
@@ -23,9 +20,9 @@ module.exports = {
       {
         reviewId: 4,
         url: "https://archives.bulbagarden.net/media/upload/4/45/Pallet_Town_PE.png"
-      },
+      }
     ], {});
-  },
+    },
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'ReviewImages';

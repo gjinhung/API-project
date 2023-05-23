@@ -53,33 +53,6 @@ module.exports = {
     }
   ], {});
   },
-    // try {
-    //   for (let spotInfo of spots) {
-    //     const { address, city, state, country, lat, lng, name, description, price, previewImg, avgRating} = spotInfo;
-    //     const foundUser = await User.findOne({
-    //       where: { username: spotInfo.owner}
-    //     });
-    //     await Spot.create({
-    //       address,
-    //       city,
-    //       state,
-    //       country,
-    //       lat,
-    //       lng,
-    //       name,
-    //       description,
-    //       price,
-    //       avgRating,
-    //       previewImg,
-    //       ownerId: foundUser.id
-    //     });
-      
-    //   }
-    // } catch(err) {
-    //   console.error(err);
-    //   throw err;
-    // }
-  // },
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'Spots';

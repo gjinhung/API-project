@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     lat: {
-      type: DataTypes.DECIMAL(8,6),
+      type: DataTypes.FLOAT(8,6),
       allowNull: false,
       validate: {
         min: -90,
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     lng: {
-      type: DataTypes.DECIMAL(9,6),
+      type: DataTypes.FLOAT(9,6),
       allowNull: false,
       validate: {
         min: -180,
@@ -62,11 +62,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     price: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT (6, 2),
       allowNull: false
     },
     avgRating: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT(6,2),
       defaultValue: 0
     },
     previewImg: {
@@ -75,12 +75,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Spot',
-    defaultScope: {
-      attributes: {
-        exclude: ["avgRating", "previewImg"]
-      }
-    }
+    modelName: 'Spot'
   });
   return Spot;
 };
