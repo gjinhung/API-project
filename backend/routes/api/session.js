@@ -74,7 +74,7 @@ router.delete(
   );
   
 
-// Restore session user
+// Get the Current User
 router.get(
     '/',
     (req, res) => {

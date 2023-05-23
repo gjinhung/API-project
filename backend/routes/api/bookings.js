@@ -151,6 +151,7 @@ router.delete('/:bookingid', async (req, res) => {
     const id = req.params.bookingid;
     const booking = await Booking.findByPk(id)
 
+    if(!booking){return res.status(404).json({"message": "Booking couldn't be found"})}
     if(user.id !== booking.userId){return res.status(403).json({"message": "Forbidden"})}
 
     booking.destroy()
