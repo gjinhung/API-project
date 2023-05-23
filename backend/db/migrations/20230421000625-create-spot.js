@@ -44,7 +44,7 @@ module.exports = {
         
       },
       lat: {
-        type: Sequelize.DECIMAL(8,6),
+        type: Sequelize.FLOAT,
         validate: {
           min: -90,
           max: 90,
@@ -52,7 +52,7 @@ module.exports = {
         }
       },
       lng: {
-        type: Sequelize.DECIMAL(9,6),
+        type: Sequelize.FLOAT(9,6),
         validate: {
           min: -180,
           max: 180
@@ -69,12 +69,12 @@ module.exports = {
         
       },
       price: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.FLOAT(6, 2),
         allowNull: false,
         
       },
       avgRating: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.FLOAT(6,2),
         defaultValue: 0
       },
       previewImg: {

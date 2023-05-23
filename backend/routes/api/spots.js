@@ -42,6 +42,24 @@ const validateSpotCreate = [
   check('price')
     .notEmpty()
     .withMessage('Price per day is required'),
+  check('price')
+    .custom((value, { req }) => {
+        if(typeof value === "string" ||  value instanceof String){
+            throw new Error ("price cannot be a string")
+        }
+return true}),
+  check('lat')
+    .custom((value, { req }) => {
+        if(typeof value === "string" ||  value instanceof String){
+            throw new Error ("lat cannot be a string")
+        }
+return true}),
+  check('lng')
+    .custom((value, { req }) => {
+        if(typeof value === "string" ||  value instanceof String){
+            throw new Error ("lng cannot be a string")
+        }
+return true}),
   handleValidationErrors
 ];
 
@@ -61,21 +79,16 @@ return true}),
   check('name')
     .isLength({ max: 49 })
     .withMessage('Name must be less than 50 characters'),
+  check('price')
+    .custom((value, { req }) => {
+        if(typeof value === "string" ||  value instanceof String){
+            throw new Error ("Price must be a number")
+        }
+return true}),
   handleValidationErrors
 ];
 
-const validateReviews = [
-  check('review')
-    .notEmpty()
-    .withMessage('Review text is required'),
-    check('stars')
-    .notEmpty()
-    .isInt({min: 1,
-      max: 5})
-    .toInt()
-    .withMessage('Stars must be an integer from 1 to 5'),
-  handleValidationErrors
-]
+
 
 async function update(allSpots) {
   for (const spot of allSpots) {
@@ -109,12 +122,12 @@ async function update(allSpots) {
   router.get('/',
   async (req, res) => {
     if(Object.keys(req.query).length === 0){
-    const allSpots = await Spot.findAll({
+    const Spots = await Spot.findAll({
       attributes: {
-        include: ["avgRating", "previewImg"]
+        exclude: ["createdAt", "updatedAt"]
       }
     });
-    for (const spot of allSpots) {
+    for (const spot of Spots) {
       let total = 0;
       let count = 0
       const review = await Review.findAll({
@@ -139,7 +152,7 @@ async function update(allSpots) {
   
       await spot.save()
   }
-    return res.json(allSpots)
+    return res.json({Spots})
   }
   let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
   page = parseInt(page)
@@ -282,21 +295,16 @@ if(Object.keys(errors).length)
   else {return res.json({Spots, page, size})};
   });
 
-  //GET Current User Spots
+//Get all Spots owned by the Current User
   router.get(
     '/current',
     async (req, res) => {
       const { user } = req;
       if(!user){
         return res.status(401).json({ "message": "Authentication required"})}
-    const currentUser = await Spot.findAll({where: {ownerId: user.id}},{
-      attributes: {
-        include: ["avgRating", "previewImg"]
-      }
-    })
-    await update(currentUser)
+    const Spots = await Spot.findAll({where: {ownerId: user.id}})
 
-    return res.json(currentUser)
+    return res.json({Spots})
   });
 
 //Create a Spot
@@ -318,7 +326,7 @@ router.post(
         lng, 
         name, 
         description, 
-        price
+        price: Number(price.toFixed(2))
       })
 
      await spot.save()
@@ -333,7 +341,7 @@ router.post(
       lng: spot.lng,
       name: spot.name,
       description: spot.description,
-      price: spot.price
+      price: Number(spot.price.toFixed(2))
      }
 
 
@@ -428,14 +436,18 @@ router.post(
 
 //Edit a Spot
 router.put(
-  ("/:spotid/"),
+  ("/:spotid"),
   validateSpotEdit,
   async (req, res) => {
     const { user } = req;
     const id = req.params.spotid;
     const {address, city, state, country, lat, lng, name, description,price} = req.body
-    const spot = await Spot.findByPk(id)
-    if(!spot) {return res.status(404).status({"message": "Spot couldn't be found"})}
+    const spot = await Spot.findByPk(id,{
+      attributes:{
+        exclude: ['avgRating', 'previewImg']
+      }
+    })
+    if(!spot) {return res.status(404).json({"message": "Spot couldn't be found"})}
     if (!user) {return res.status(401).json({ "message": "Authentication required"})}    
     if (user.id !== spot.ownerId) {return res.status(403).json({"message": "Forbidden"})}
 
@@ -447,12 +459,11 @@ router.put(
     if (lng) {spot.lng = lng}
     if (name) {spot.name = name}
     if (description) {spot.description = description}
-    if (price) {spot.price = price}
+    if (price) {spot.price = Number(price.toFixed(2))}
 
     await spot.save()
 
-    return res.json(
-      spot
+    return res.json(spot
     )
   }
 )
@@ -463,7 +474,7 @@ router.delete('/:spotid', async(req, res) => {
   const id = req.params.spotid;
   const spot = await Spot.findOne({where: {id: id}})
   if(!spot){return res.status(404).json({"message": "Spot couldn't be found"})}
-  if (!user) {return res.json(401, {"message": "Authentication required"})}
+  if (!user) {return res.status(401).json({"message": "Authentication required"})}
   if (user.id !== spot.ownerId) {return res.status(403).json({"message": "Forbidden"})}
 
  
@@ -475,70 +486,19 @@ router.delete('/:spotid', async(req, res) => {
 }
 )
 
-//Get all Reviews by a Spot's id
-router.get('/:spotid/reviews', async(req, res) => {
-  const id = req.params.spotid;
-  const spot = await Spot.findByPk(id);
-  if(!spot){return res.status(404).json({"message": "Spot couldn't be found"})}
-  const Reviews = await Review.findAll({
-    where: {
-      spotId: id
-  },
-  include: [
-      {model: User,
-      attributes: ["id", "firstName", "lastName"]},
-      {model: ReviewImage, 
-      attributes: ["id", "url"]}
-  ]
-  })
-return res.json({Reviews})
-})
-
-//Create a Review for a Spot based on the Spot's id
-router.post('/:spotid/reviews', validateReviews, async(req, res, next) => {
-  const {user} = req;
-  const {review, stars} = req.body;
-  if(!user){
-    return res.status(401).json({ "message": "Authentication required"})}
-  const id = req.params.spotid;
-    const spot = await Spot.findByPk(id)
-    if(!spot){
-      return res.status(401).json({"message": "Spot couldn't be found"})}
-  //Review from the current user already exists for the Spot
-  const rev = await Review.findOne({where: {spotId: id}})
-  if(rev.userId === user.id){
-    return res.status(500).json({ "message": "User already has a review for this spot"})}
-
-  const newReview = await Review.create(
-    {userId: user.id,
-    spotId: id,
-    review,
-    stars
-  })
-
-  await newReview.save()
-
-  return res.json(newReview)
-})
-
 //Delete a Spot Image
-router.delete('/:spotid/image', async(req, res) => {
+router.delete('/:spotid/images/:imageid', async(req, res) => {
   const {user} = req;
-  const id = req.params.spotid;
-  const spot = await Spot.findByPk(id, {
-    attributes: {
-      include: ["avgRating", "previewImg"]
-    }
-  })
-
-  if(!spot){return res.status(404).json({"message": "Spot couldn't be found"})}
   if (!user) {return res.json(401, {"message": "Authentication required"})}
+  const id = req.params.spotid;
+  const imageid = req.params.imageid
+  const spot = await Spot.findByPk(id)
+  if(!spot){return res.status(404).json({"message": "Spot couldn't be found"})}
   if (user.id !== spot.ownerId) {return res.status(403).json({"message": "Forbidden"})}
-
-  const img = await SpotImage.findOne({where: {spotId: spot.id, preview: true}
-  })
-  if (!img) {return res.status(500).json({"message": "This spot has no images"})}
-  await img.destroy()
+  const image = await SpotImage.findByPk(imageid)
+  if (!image) {return res.status(404).json({"message": "Spot Image couldn't be found"})}
+  
+  await image.destroy()
 
   const nextTrue = await SpotImage.findOne({order: [ [ 'id', 'DESC' ]]})
   nextTrue.preview = true
@@ -565,106 +525,6 @@ router.get('/:spotid/image', async(req, res) => {
     })
   return res.json(img)
 })
-
-// Add Query Filters to Get All Spots
-// router.get('/*', async(req, res) => {
-  
-
-//   let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
-//   page = parseInt(page)
-//   size = parseInt(size)
-
-
-//   if (!page) {page = 1}
-//   if (!size) {size = 20}
-//   if (page > 10) {page = 10}
-//   if (size > 20) {page = 20}
-
-//   let errors = {}
-//   let list = []
-  
-//   if(minLat) {
-//     if(isNaN(parseInt(+minLat)) || (minLat < -90 || minLat > 90)){
-//       errors.minLat = "Minimum latitude is invalid"
-//     }
-//       const lats = await Spot.findAll({
-//         where: {lat: {[Op.gte]: minLat}}})
-//         for (const lat of lats ){
-//          list.push(lat.id)
-//         }}
-
-//   if(maxLat) {
-//     if(isNaN(parseInt(+maxLat)) || (maxLat < -90 || maxLat > 90)){
-//       errors.maxLat = "Maximum latitude is invalid"
-//     }
-//       const lats = await Spot.findAll({
-//         where: {lat: {[Op.lte]: maxLat}}})
-//         for (const lat of lats ){
-//          list.push(lat.id)
-//         }
-//   }
-
-//   if(maxLng) {
-//     if(isNaN(parseInt(+maxLng)) || (maxLng < -180 || maxLng > 180)){
-//       errors.maxLng = "Maximum longitude is invalid"
-//     }
-//       const lngs = await Spot.findAll({
-//         where: {lng: {[Op.lte]: maxLng}}})
-//         for (const lng of lngs ){
-//          list.push(lng.id)
-//         }
-//   }
-
-//   if(minLng) {
-//     if(isNaN(parseInt(+minLng)) || (minLng < -180 || minLng > 180)){
-//       errors.minLng = "Minimum longitude is invalid"
-//     }
-//       const lngs = await Spot.findAll({
-//         where: {lng: {[Op.gte]: minLng}}})
-//         for (const lng of lngs ){
-//          list.push(lng.id)
-//         }
-//   }
-
-//   if(minPrice){
-//     if(isNaN(parseInt(+minPrice)) || (minPrice < 0)){
-//       errors.minPrice = "Minimum price must be greater than or equal to 0"
-//     }
-//       const prices = await Spot.findAll({
-//         where: {price: {[Op.gte]: minPrice}}})
-//         for (const price of prices ){
-//          list.push(price.id)
-//         }
-//   }
-
-//   if(maxPrice){
-//     if(isNaN(parseInt(+maxPrice)) || (maxPrice < 0)){
-//       errors.maxPrice = "Maximum price must be greater than or equal to 0"
-//     }
-//       const prices = await Spot.findAll({
-//         where: {price: {[Op.lte]: maxPrice}}})
-//         for (const price of prices ){
-//          list.push(price.id)
-//         }
-//   }
-
-//   const Spots = await Spot.findAll({
-//     where:{
-//       id: list
-//     },
-//     attributes: {
-//       include: ["avgRating", "previewImg"]
-//     },
-//     limit: size,
-//     offset: size * (page - 1)
-//   })
-
-//   await update(Spots)
-
-// if(Object.keys(errors).length)
-// {return res.status(400).json({"message": "Bad Request", errors})}
-//   else {return res.json({Spots, page, size})};
-// })
 
 module.exports = router;
 
