@@ -1,6 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { Op } = require("sequelize");
 
 const {Booking, User, Spot} = require('../../db/models');
 
@@ -81,21 +82,25 @@ router.post('/spots/:spotid', validateBooking, async (req, res) => {
     //finding Booking where new start dates falls between old start and old end
     let start = false;
     let end = false;
+    let conflict = false;
     const errors = {}
     for (const booking of bookings) {
         let currentEnd = new Date(endDate).toJSON().slice(0,10);
         let currentStart = new Date(startDate).toJSON().slice(0,10);
-        let from = new Date(booking.startDate);
-        let to   = new Date(booking.endDate);
-        let check1 = new Date(currentStart);
-        let check2 = new Date(currentEnd)
-        if (check1 >= from && check1 <=to) {start = true}
-        if (check2 >= from && check2 <=to) {end = true}
+        let oldstart = new Date(booking.startDate); //old start
+        let oldend   = new Date(booking.endDate); //old end
+        let newstart = new Date(currentStart); //new start
+        let newend = new Date(currentEnd) //new end
+        if (oldstart <= newstart && newstart <=oldend) {start = true} //does the newstart fall between old start and end
+        if (oldstart <= newend && newend <=oldend) {end = true} //does the newend fall between old start and end
+        if (newstart < oldstart && oldstart < newend) {conflict = true}//does the old start fall between new start and end 
+        if (newstart < oldend && oldend < newend) {conflict = true}//does the old end fall between new start and end
     }
     if(start === true) {errors["startDate"] = "Start date conflicts with an existing booking"}
     if(end === true) {errors["endDate"] = "End date conflicts with an existing booking"}
+    if(conflict === true) {errors["booking conflict"] = "Booking dates conflicts with an exisiting booking"}
     
-    if(start || end) {return res.status(403).json(
+    if(start || end || conflict) {return res.status(403).json(
         {"message": "Sorry, this spot is already booked for the specified dates", errors})}
 
         const newBooking = await Booking.create({
@@ -117,29 +122,38 @@ router.put('/:bookingid', validateBooking, async (req, res) => {
     if(!user){return res.status(401).json({"message": "Authentication required"})}
     
     if(user.id !== booking.userId){return res.status(403).json({"message": "Forbidden"})}
-
+    //find all bookings in a spot that does not belong to the user
+    const bookings = await Booking.findAll({where:{
+        userId: {[Op.ne]: user.id}
+    }})
+    //finding Booking where new start dates falls between old start and old end
     let start = false;
     let end = false;
+    let conflict = false;
     const errors = {}
+    for (const book of bookings) {
         let currentEnd = new Date(endDate).toJSON().slice(0,10);
         let currentStart = new Date(startDate).toJSON().slice(0,10);
-        let from = new Date(booking.startDate);
-        let to   = new Date(booking.endDate);
-        let check1 = new Date(currentStart);
-        let check2 = new Date(currentEnd)
-        if (check1 >= from && check1 <=to) {start = true}
-        if (check2 >= from && check2 <=to) {end = true}
-    
+        let oldstart = new Date(book.startDate); //old start
+        let oldend   = new Date(book.endDate); //old end
+        let newstart = new Date(currentStart); //new start
+        let newend = new Date(currentEnd) //new end
+        if (oldstart <= newstart && newstart <=oldend) {start = true} //does the newstart fall between old start and end
+        if (oldstart <= newend && newend <=oldend) {end = true} //does the newend fall between old start and end
+        if (newstart < oldstart && oldstart < newend) {conflict = true}//does the old start fall between new start and end 
+        if (newstart < oldend && oldend < newend) {conflict = true}//does the old end fall between new start and end
+    }
     if(start === true) {errors["startDate"] = "Start date conflicts with an existing booking"}
     if(end === true) {errors["endDate"] = "End date conflicts with an existing booking"}
+    if(conflict === true) {errors["booking conflict"] = "Booking dates conflicts with an exisiting booking"}
     
-    if(start || end) {return res.status(403).json(
+    if(start || end || conflict) {return res.status(403).json(
         {"message": "Sorry, this spot is already booked for the specified dates", errors})}
-
     if(booking.endDate < new Date().toJSON()){return res.status(403).json({"message": "Past bookings can't be modified"})}
 
     if(startDate) {booking.startDate = startDate};
     if(endDate) {booking.endDate = endDate}
+    await booking.save()
 
     return res.json(booking)
 
