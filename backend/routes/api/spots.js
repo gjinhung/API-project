@@ -45,7 +45,7 @@ const validateSpotCreate = [
   check('price')
     .custom((value, { req }) => {
         if(typeof value === "string" ||  value instanceof String){
-            throw new Error ("price cannot be a string")
+            throw new Error ("Price cannot be a string")
         }
 return true}),
   check('lat')
@@ -142,8 +142,10 @@ async function update(allSpots) {
       const prevImg = await SpotImage.findOne({
         where: {spotId: spot.id,
           preview: true},
+        order: [['createdAt', 'DESC']],
         raw: true
       });//find an image of a spot where the preview boolean is true
+
       if(total/count){
       spot.avgRating = total/count}
       if(prevImg){  //if there is an old image marked true
@@ -316,6 +318,8 @@ router.post(
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
     if(!user){return res.status(401).json({ "message": "Authentication required"})}
 
+    let newprice = Number(price.toFixed(2))
+
       const spot = await Spot.create({ 
         ownerId: user.id, 
         address, 
@@ -326,7 +330,7 @@ router.post(
         lng, 
         name, 
         description, 
-        price: Number(price.toFixed(2))
+        price: newprice
       })
 
      await spot.save()
@@ -341,7 +345,7 @@ router.post(
       lng: spot.lng,
       name: spot.name,
       description: spot.description,
-      price: Number(spot.price.toFixed(2))
+      price: newprice
      }
 
 

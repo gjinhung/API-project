@@ -140,7 +140,7 @@ router.delete('/:reviewid', async (req, res) => {
 })
 
 //Delete a Review Image
-router.delete('/:reviewid/:imageid', async(req, res) => {
+router.delete('/:reviewid/images/:imageid', async(req, res) => {
     const {user} = req;
     const id = req.params.reviewid;
     const imgid = req.params.imageid;
