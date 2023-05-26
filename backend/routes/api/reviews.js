@@ -140,12 +140,12 @@ router.delete('/:reviewid', async (req, res) => {
 })
 
 //Delete a Review Image
-router.delete('/:reviewid/images/:imageid', async(req, res) => {
+router.delete('/images/:imageid', async(req, res) => {
     const {user} = req;
-    const id = req.params.reviewid;
+    // const id = req.params.reviewid;
     const imgid = req.params.imageid;
-    const review = await Review.findByPk(id)
-    const image = await ReviewImage.findOne({where: {id: imgid}})
+    const image = await ReviewImage.findByPk(imgid)
+    const review = await Review.findByPk(image.reviewId)
     if(!image) {return res.status(404).json({"message": "Review Image couldn't be found"})}
     if(!review) {return res.status(404).json({"message": "Review couldn't be found"})}
     if (!user) {return res.json(401, {"message": "Authentication required"})}
