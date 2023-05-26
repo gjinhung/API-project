@@ -146,6 +146,7 @@ router.delete('/images/:imageid', async(req, res) => {
     // const id = req.params.reviewid;
     const imgid = req.params.imageid;
     const image = await ReviewImage.findByPk(imgid)
+    return res.json(image)
     if(!image) {return res.status(404).json({"message": "Review Image couldn't be found"})}
     const review = await Review.findByPk(image.reviewId)
     if (user.id !== review.userId) {return res.status(403).json({"message": "Forbidden"})}
