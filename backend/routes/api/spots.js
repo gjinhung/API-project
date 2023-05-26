@@ -88,10 +88,29 @@ return true}),
   handleValidationErrors
 ];
 
+//GET All Spots
+  router.get('/',
+  async (req, res) => {
+  
+  let {page, size, minLat, maxLat, minLng, maxLng,minPrice,maxPrice} = req.query
+  page = parseInt(page)
+  size = parseInt(size)
 
 
-async function update(allSpots) {
-  for (const spot of allSpots) {
+if (!page) {page = 1}
+if (!size) {size = 20}
+if (page > 10) {page = 10}
+if (size > 20) {page = 20}
+
+if (!minLat && !maxLat && !minLng && !maxLng && !minPrice && !maxPrice) {
+  const Spots = await Spot.findAll({
+    attributes: {
+      exclude: ["updatedAt"]
+    },
+    limit: size,
+    offset: size * (page - 1)
+  });
+  for (const spot of Spots) {
     let total = 0;
     let count = 0
     const review = await Review.findAll({
@@ -106,26 +125,103 @@ async function update(allSpots) {
     const prevImg = await SpotImage.findOne({
       where: {spotId: spot.id,
         preview: true},
+      order: [['createdAt', 'DESC']],
       raw: true
     });//find an image of a spot where the preview boolean is true
+
     if(total/count){
     spot.avgRating = total/count}
     if(prevImg){  //if there is an old image marked true
-    spot.previewImg = prevImg.url} //the spot's img = url
-    else{prevImg.previewImg = "image url"}// if no one image marked true
+    spot.previewImg = prevImg.url} //their img
+    else{spot.previewImg = "image url"}
 
     await spot.save()
 }
+  return res.json({Spots, page, size})
 }
 
-//GET All Spots
-  router.get('/',
-  async (req, res) => {
-    if(Object.keys(req.query).length === 0){
-    const Spots = await Spot.findAll({
-      attributes: {
-        exclude: ["createdAt", "updatedAt"]
+let errors = {}
+let list = []
+
+if(minLat) {
+  if(isNaN(parseInt(+minLat)) || (minLat < -90 || minLat > 90)){
+    errors.minLat = "Minimum latitude is invalid"
+  }
+    const lats = await Spot.findAll({
+      where: {lat: {[Op.gte]: minLat}}})
+      for (const lat of lats ){
+       list.push(lat.id)
       }
+      console.log(list)
+    }
+
+if(maxLat) {
+  if(isNaN(parseInt(+maxLat)) || (maxLat < -90 || maxLat > 90)){
+    errors.maxLat = "Maximum latitude is invalid"
+  }
+    const lats = await Spot.findAll({
+      where: {lat: {[Op.lte]: maxLat}}})
+      for (const lat of lats ){
+       list.push(lat.id)
+      }
+      console.log(list)
+}
+
+if(maxLng) {
+  if(isNaN(parseInt(+maxLng)) || (maxLng < -180 || maxLng > 180)){
+    errors.maxLng = "Maximum longitude is invalid"
+  }
+    const lngs = await Spot.findAll({
+      where: {lng: {[Op.lte]: maxLng}}})
+      for (const lng of lngs ){
+       list.push(lng.id)
+      }
+      console.log(list)
+}
+
+if(minLng) {
+  if(isNaN(parseInt(+minLng)) || (minLng < -180 || minLng > 180)){
+    errors.minLng = "Minimum longitude is invalid"
+  }
+    const lngs = await Spot.findAll({
+      where: {lng: {[Op.gte]: minLng}}})
+      for (const lng of lngs ){
+       list.push(lng.id)
+      }   console.log(list)
+}
+
+if(minPrice){
+  if(isNaN(parseInt(+minPrice)) || (minPrice < 0)){
+    errors.minPrice = "Minimum price must be greater than or equal to 0"
+  }
+    const prices = await Spot.findAll({
+      where: {price: {[Op.gte]: minPrice}}})
+      for (const price of prices ){
+       list.push(price.id)
+      }   console.log(list)
+}
+
+if(maxPrice){
+  if(isNaN(parseInt(+maxPrice)) || (maxPrice < 0)){
+    errors.maxPrice = "Maximum price must be greater than or equal to 0"
+  }
+    const prices = await Spot.findAll({
+      where: {price: {[Op.lte]: maxPrice}}})
+      for (const price of prices ){
+       list.push(price.id)
+      }   console.log(list)
+}
+
+
+    const Spots = await Spot.findAll({
+      where:{
+        id: list
+      },
+      attributes: {
+        exclude: ["updatedAt"]
+      },
+      limit: size,
+      offset: size * (page - 1)
     });
     for (const spot of Spots) {
       let total = 0;
@@ -154,152 +250,14 @@ async function update(allSpots) {
   
       await spot.save()
   }
-    return res.json({Spots})
-  }
-  let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
-  page = parseInt(page)
-  size = parseInt(size)
-
-
-  if (!page) {page = 1}
-  if (!size) {size = 20}
-  if (page > 10) {page = 10}
-  if (size > 20) {page = 20}
-
-  let errors = {}
-  let list = []
-  
-  if(minLat) {
-    if(isNaN(parseInt(+minLat)) || (minLat < -90 || minLat > 90)){
-      errors.minLat = "Minimum latitude is invalid"
-    }
-      const lats = await Spot.findAll({
-        where: {lat: {[Op.gte]: minLat}}})
-        for (const lat of lats ){
-         list.push(lat.id)
-        }
-        console.log(list)
-      }
-
-  if(maxLat) {
-    if(isNaN(parseInt(+maxLat)) || (maxLat < -90 || maxLat > 90)){
-      errors.maxLat = "Maximum latitude is invalid"
-    }
-      const lats = await Spot.findAll({
-        where: {lat: {[Op.lte]: maxLat}}})
-        for (const lat of lats ){
-         list.push(lat.id)
-        }
-        console.log(list)
-  }
-
-  if(maxLng) {
-    if(isNaN(parseInt(+maxLng)) || (maxLng < -180 || maxLng > 180)){
-      errors.maxLng = "Maximum longitude is invalid"
-    }
-      const lngs = await Spot.findAll({
-        where: {lng: {[Op.lte]: maxLng}}})
-        for (const lng of lngs ){
-         list.push(lng.id)
-        }
-        console.log(list)
-  }
-
-  if(minLng) {
-    if(isNaN(parseInt(+minLng)) || (minLng < -180 || minLng > 180)){
-      errors.minLng = "Minimum longitude is invalid"
-    }
-      const lngs = await Spot.findAll({
-        where: {lng: {[Op.gte]: minLng}}})
-        for (const lng of lngs ){
-         list.push(lng.id)
-        }   console.log(list)
-  }
-
-  if(minPrice){
-    if(isNaN(parseInt(+minPrice)) || (minPrice < 0)){
-      errors.minPrice = "Minimum price must be greater than or equal to 0"
-    }
-      const prices = await Spot.findAll({
-        where: {price: {[Op.gte]: minPrice}}})
-        for (const price of prices ){
-         list.push(price.id)
-        }   console.log(list)
-  }
-
-  if(maxPrice){
-    if(isNaN(parseInt(+maxPrice)) || (maxPrice < 0)){
-      errors.maxPrice = "Maximum price must be greater than or equal to 0"
-    }
-      const prices = await Spot.findAll({
-        where: {price: {[Op.lte]: maxPrice}}})
-        for (const price of prices ){
-         list.push(price.id)
-        }   console.log(list)
-  }
-//finding duplicate ids
-  const finalList = []
-  const set = {}
-  
-  list.forEach(id => {
-      if(id in set){
-          set[id]++
-      }else{
-      set[id] = 1
-      }
-  })
-  
-  for(let id in set){
-      if (set[id] > 1){
-          finalList.push(id)
-      }
-  }
-
-  const Spots = await Spot.findAll({
-    where:{
-      id: finalList
-    },
-    attributes: {
-      include: ["avgRating", "previewImg"]
-    },
-    limit: size,
-    offset: size * (page - 1)
-  })
-
-  for (const spot of Spots) {
-    let total = 0;
-    let count = 0
-    const review = await Review.findAll({
-        where: {spotId: spot.id},
-        raw: true
-    })
-    review.forEach(async (rev) => {
-        total += rev.stars;
-        count ++
-    })
-    
-    const prevImg = await SpotImage.findOne({
-      where: {spotId: spot.id,
-        preview: true},
-      raw: true
-    });//find an image of a spot where the preview boolean is true
-    if(total/count){
-    spot.avgRating = total/count}
-    if(prevImg){  //if there is an old image marked true
-    spot.previewImg = prevImg.url} //their img
-    else{spot.previewImg = "image url"}
-
-    await spot.save()
-}
-
 if(Object.keys(errors).length)
 {return res.status(400).json({"message": "Bad Request", errors})}
-  else {return res.json({Spots, page, size})};
-  });
+else {return res.json({Spots, page, size})};
+
+  })
 
 //Get all Spots owned by the Current User
-  router.get(
-    '/current',
+  router.get('/current',
     async (req, res) => {
       const { user } = req;
       if(!user){
@@ -310,8 +268,7 @@ if(Object.keys(errors).length)
   });
 
 //Create a Spot
-router.post(
-  '',
+router.post('',
   validateSpotCreate,
   async(req, res) => {
     const { user } = req;
@@ -353,8 +310,7 @@ return res.json(newSpot)
     });
 
 //Get Details of a Spot from an id
-router.get(
-  ("/:spotid"),
+router.get(("/:spotid"),
   async (req, res) => {
     const spotId = +req.params.spotid;
     const currentSpot = await Spot.findByPk(spotId, {
@@ -403,8 +359,7 @@ router.get(
 )
 
 //Add an Image to a Spot by Id
-router.post(
-  ("/:spotid/images"),
+router.post(("/:spotid/images"),
   async (req, res) => {
     const { user } = req;
     const id = req.params.spotid;
@@ -439,8 +394,7 @@ router.post(
 )
 
 //Edit a Spot
-router.put(
-  ("/:spotid"),
+router.put(("/:spotid"),
   validateSpotEdit,
   async (req, res) => {
     const { user } = req;
@@ -529,6 +483,56 @@ router.get('/:spotid/image', async(req, res) => {
     })
   return res.json(img)
 })
+
+
+//Add Query Filters to Get All Spot/s
+
+
+
+// const Spots = await Spot.findAll({
+//   where:{
+//     id: finalList
+//   },
+//   attributes: {
+//     include: ["avgRating", "previewImg"]
+//   },
+//   limit: size,
+//   offset: size * (page - 1)
+// })
+
+// for (const spot of Spots) {
+//   let total = 0;
+//   let count = 0
+//   const review = await Review.findAll({
+//       where: {spotId: spot.id},
+//       raw: true
+//   })
+//   review.forEach(async (rev) => {
+//       total += rev.stars;
+//       count ++
+//   })
+  
+//   const prevImg = await SpotImage.findOne({
+//     where: {spotId: spot.id,
+//       preview: true},
+//     raw: true
+//   });//find an image of a spot where the preview boolean is true
+//   if(total/count){
+//   spot.avgRating = total/count}
+//   if(prevImg){  //if there is an old image marked true
+//   spot.previewImg = prevImg.url} //their img
+//   else{spot.previewImg = "image url"}
+
+//   await spot.save()
+// }
+
+// if(Object.keys(errors).length)
+// {return res.status(400).json({"message": "Bad Request", errors})}
+// else {return res.json({Spots, page, size})};
+
+
+  // })
+  
 
 module.exports = router;
 
