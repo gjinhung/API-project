@@ -147,29 +147,26 @@ router.delete('/:reviewid/images/:imageid', async(req, res) => {
     const review = await Review.findByPk(id)
     const image = await ReviewImage.findOne({where: {id: imgid}})
     if(!image) {return res.status(404).json({"message": "Review Image couldn't be found"})}
-    if(!review) {return res.status(404).json({"message": "Revieçw couldn't be found"})}
+    if(!review) {return res.status(404).json({"message": "Review couldn't be found"})}
     if (!user) {return res.json(401, {"message": "Authentication required"})}
     if (user.id !== review.userId) {return res.status(403).json({"message": "Forbidden"})}
   
-    const img = await ReviewImage.findOne({where: {reviewId: review.id}
-    })
-    
-    await img.destroy()
+    await image.destroy()
   
     return res.json({
       "message": "Successfully deleted"
     })
   })
 
-//Get all Review Images by Spot id
-router.get('/:reviewid/image', async(req, res) => {
-    const id = req.params.reviewid;
-    const review = await Review.findByPk(id)
-    const allImg = await ReviewImage.findAll()
+// //Get all Review Images by Spot id
+// router.get('/:reviewid/image', async(req, res) => {
+//     const id = req.params.reviewid;
+//     const review = await Review.findByPk(id)
+//     const allImg = await ReviewImage.findAll()
 
-    const img = await ReviewImage.findAll({where: {reviewId: review.id}})
-        return res.json(parseFloat(id))
-      })
+//     const img = await ReviewImage.findAll({where: {reviewId: review.id}})
+//         return res.json(parseFloat(id))
+//       })
 
 //Get all Reviews by a Spot's id
 router.get('/spots/:spotid', async(req, res) => {
