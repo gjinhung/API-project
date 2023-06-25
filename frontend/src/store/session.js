@@ -22,8 +22,8 @@ export const login = (user) => async (dispatch) => {
         body: JSON.stringify(user),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
-    return response;
+    dispatch(setUser(data));
+    return data;
 };
 
 export const logout = () => async (dispatch) => {
@@ -31,8 +31,8 @@ export const logout = () => async (dispatch) => {
         method: "DELETE"
     });
     const data = await response.json();
-    return dispatch(removeUser(data.user));
-    // return response;
+    dispatch(removeUser(data.user));
+    return response;
 };
 
 const initialState = { user: null };
@@ -41,9 +41,13 @@ const sessionReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case SET_USER:
-            // console.log(action)
+            // console.log(action.payload)
             newState = Object.assign({}, state);
-            newState.user = action.payload;
+            if (!action.payload.user) {
+                newState.user = null
+            } else {
+                newState.user = action.payload.user;
+            }
             return newState;
         case REMOVE_USER:
             removeUser()
