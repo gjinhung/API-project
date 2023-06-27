@@ -42,6 +42,16 @@ export const restoreUser = () => async (dispatch) => {
     return response;
 };
 
+export const signup = (user) => async dispatch => {
+    const response = await csrfFetch("/api/users", {
+        method: "POST",
+        body: JSON.stringify(user)
+    });
+    const data = await response.json();
+    dispatch(setUser(data));
+    return data
+}
+
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
@@ -49,7 +59,6 @@ const sessionReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER:
             newState = Object.assign({}, state);
-            // console.log(action.payload)
             if (!action.payload.user) {
                 newState.user = null
             } else {
