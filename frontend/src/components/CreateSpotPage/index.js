@@ -13,7 +13,7 @@ const CreateSpotPage = () => {
     const [state, setState] = useState("");
     const [description, setDescription] = useState("");
     const [name, setName] = useState("");
-    const [price, setPrice] = useState();
+    const [price, setPrice] = useState('');
     const [prevImg, setPrevImg] = useState({ url: '', preview: true });
     const [img1, setImg1] = useState({ url: '', preview: false });
     const [img2, setImg2] = useState({ url: '', preview: false });
@@ -112,11 +112,11 @@ const CreateSpotPage = () => {
     //     setPrice(newPrice)
     // }
 
-    const formatPrice = (e) => {
-        let newPrice = Number.e.target.value
-        setPrice(newPrice)
-        //  setPrice(Number.e.target.value)
-    };
+    // const formatPrice = (e) => {
+    //     let newPrice = Number.e.target.value
+    //     setPrice(newPrice)
+    //     //  setPrice(Number.e.target.value)
+    // };
 
     useEffect(() => {
         setShowMenu(false)
@@ -248,7 +248,7 @@ const CreateSpotPage = () => {
                             type="number"
                             placeholder="Price per night (USD)"
                             value={price}
-                            onChange={formatPrice}
+                            onChange={(e) => setPrice(e.target.value)}
                         />
                     </div>
                     <div style={{ color: "red" }}>{errorsList.price}</div>

@@ -46,13 +46,6 @@ const validateSpotCreate = [
   check('price')
     .notEmpty()
     .withMessage('Price per day is required'),
-  check('price')
-    .custom((value, { req }) => {
-      if (typeof value === "string" || value instanceof String) {
-        throw new Error("Price cannot be a string")
-      }
-      return true
-    }),
   check('lat')
     .custom((value, { req }) => {
       if (typeof value === "string" || value instanceof String) {
