@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 import configureStore from './store';
-
+import MenuProvider from './context/ShowMenuContext';
 import { restoreCSRF, csrfFetch } from './store/csrf';
 
 import * as sessionActions from "./store/session";
@@ -26,9 +26,11 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <MenuProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </MenuProvider>
     </Provider>
   );
 }
