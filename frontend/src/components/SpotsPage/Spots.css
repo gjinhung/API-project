@@ -1,0 +1,45 @@
+*{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.spotsPage{
+    /* background-color: red; */
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+grid-row-gap: 48px;
+grid-column-gap: 20px;
+padding: 40px;
+}
+
+.spot{
+    display: block;
+    height: 100%;
+    /* position: absolute; */
+    /* top: 0;
+    width: 100%; */
+    /* outline: none; */
+    /* background-color: aqua; */
+    /* grid-template-columns: 50%, 50%; */
+}
+
+
+.spotImg{
+    object-fit: cover;
+    object-position: center;
+    height:100%;
+    width: 100%;
+    z-index: 0;
+}
+
+.react-tooltip-lite {
+    background: white;
+    border: solid;
+    border-radius: .5rem;
+    border-color: black;
+    color: red;
+    text-align: center !important;
+  }
+  
+  .react-tooltip-lite-arrow {
+    border-color: #333;
+  }

@@ -7,9 +7,7 @@ html, body, input, textarea, button, select, a {
     border: 0;
     background: none;
     font-weight: 700;
-    padding: .5em 1em;
     text-transform: uppercase;
-    transition: background-color .25s, color .25s;
     cursor: pointer;
   }
 
@@ -17,10 +15,10 @@ html, body, input, textarea, button, select, a {
     cursor: default;
   }
   
-  button:hover {
-    background-color: blueviolet;
+  /* button:hover {
+    background-color: green;
     color: white;
-  }
+  } */
 
   h1 {
     font-weight: 400;

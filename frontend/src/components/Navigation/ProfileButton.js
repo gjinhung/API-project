@@ -1,10 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import { useMenu } from "../../context/ShowMenuContext";
+
+import './Navigation.css';
+import "./Modal.css";
+
+import ModalFunction from "./Modal";
+
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
-    const [showMenu, setShowMenu] = useState(false);
+    const { showMenu, setShowMenu } = useMenu();
+
     const ulRef = useRef();
 
     const openMenu = () => {
@@ -24,29 +33,50 @@ function ProfileButton({ user }) {
         document.addEventListener('click', closeMenu);
 
         return () => document.removeEventListener("click", closeMenu);
-    }, [showMenu]);
+    }, [showMenu, setShowMenu]);
 
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
     };
 
+    let dropdown
+
+    if (user) {
+        dropdown = (
+            <div className="dropdown-menu">
+                <div>{`Hello, ${user.firstName}`}</div>
+                <div>{user.email}</div>
+                <hr style={{ color: "black" }}></hr>
+                <NavLink to="/spots/current" className="manage-spots">Manage Spots</NavLink>
+                <div>
+                    <hr style={{ color: "black" }}></hr>
+                    <button onClick={logout} className="logout-button">Log Out</button>
+                </div>
+            </div>
+        )
+    } else {
+        dropdown = (
+            <div className="dropdown-menu">
+                <ModalFunction>
+
+                </ModalFunction>
+            </div>
+        )
+    }
+
+
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
-        <>
+        <div className='menu-container'>
             <button onClick={openMenu}>
                 <i className="fas fa-user-circle" />
             </button>
-            <ul className={ulClassName} ref={ulRef}>
-                <li>{user.username}</li>
-                <li>{user.firstName} {user.lastName}</li>
-                <li>{user.email}</li>
-                <li>
-                    <button onClick={logout}>Log Out</button>
-                </li>
-            </ul>
-        </>
+            <div className={ulClassName} ref={ulRef} >
+                {dropdown}
+            </div>
+        </div>
     );
 }
 
