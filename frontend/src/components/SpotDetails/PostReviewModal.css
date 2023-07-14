@@ -17,6 +17,11 @@
 .overlay {
     background: rgba(49,49,49,0.8);
 }
+
+.modal-container{
+    max-width: 450px;
+}
+
 .modal-content {
     position: absolute;
     top: 40%;
@@ -26,9 +31,15 @@
     background: #f1f1f1;
     padding: 14px 28px;
     border-radius: 3px;
-    max-width: 600px;
+    max-width: 380px;
     min-width: 300px;
     z-index: 4 !important;
+}
+
+.modal-title{
+    font-size: 30px;
+text-align: center;
+margin: 0
 }
 
 .close-modal {
@@ -81,3 +92,51 @@ input{
     color: red;
     padding-bottom: 10px;
 }
+
+.postButton{
+    border: solid;
+    border-width: 5px;
+    background-color: rgb(255, 203, 5);
+    border-color: rgb(42, 117, 187);
+    box-shadow: 5px 2px grey;
+    text-align: center;
+    margin-top: 10px;
+    width: 200px
+}
+
+.review-button{
+    border: solid;
+    border-width: 5px;
+    background-color: rgb(255, 203, 5);
+    border-color: rgb(42, 117, 187);
+    box-shadow: 5px 2px grey;
+    text-align: center;
+    margin-top: 10px;
+    width: 350px
+}
+
+.review-button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+textarea {
+    resize: none;
+   
+  }
+
+  .text-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .star-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }

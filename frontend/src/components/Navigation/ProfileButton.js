@@ -55,7 +55,7 @@ function ProfileButton({ user }) {
                 <NavLink to="/spots/current" className="manage-spots">Manage Spots</NavLink>
                 <div>
                     <hr style={{ color: "black" }}></hr>
-                    <button onClick={logout} className="logout-button">Log Out</button>
+                    <a onClick={logout} className="logout-button">Log Out</a>
                 </div>
             </div>
         )

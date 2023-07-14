@@ -32,6 +32,7 @@ const SpotsPage = () => {
                 return (
                     <div className='spot'>
                         <a href={`/spots/${id}`}
+                            className='spot-link'
                             key={id}
                         >
                             <img src={previewImg}
@@ -55,7 +56,7 @@ const SpotsPage = () => {
 
                             <DeleteButton spotId={id} />
                         </div>
-                    </div>
+                    </div >
                 )
             })
         }
@@ -69,10 +70,10 @@ const SpotsPage = () => {
 
     return (
         <div className="spots-page">
-            <div>Manage Spots</div>
-            <div key='new'>
-                <NavLink to="/spots/new" >Create a New Spot</NavLink>
-            </div>
+            <div className='manage-spots-title'>Manage Spots</div>
+
+            <button to="/spots/new" className="new-spot-button">Create a New Spot</button>
+
             <div className='spotsContainer'>
                 {show}
             </div>
