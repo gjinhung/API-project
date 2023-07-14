@@ -15,33 +15,50 @@ const SpotsPage = () => {
 
     let show
 
+    normalizedSpots.sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
+
     if (normalizedSpots[0]) {
+        if (normalizedSpots[0].id) {
+            show = normalizedSpots.map((spot) => {
+                const { id, previewImg, city, state, price, name, avgRating } = spot
+                let rating = parseFloat(avgRating).toFixed(1);
+                if (!Number(rating)) {
+                    rating = "New"
+                }
 
-        show = normalizedSpots.map((spot) => {
-            const { id, previewImg, city, state, price, name, avgRating } = spot
-            const rating = parseFloat(avgRating).toFixed(2);
+                return (
+                    <div className='spot'>
+                        <a href={`/spots/${id}`}
+                            className="spot-link"
+                            key={id}
+                        >
+                            <Tooltip
+                                content={name}
+                                direction="up"
+                                tagName="span"
+                                className='target'
+                            >
+                                <img src={previewImg}
+                                    style={{ color: 'black' }}
+                                    className='spotImg'
+                                    alt={name}
+                                    key={id}
+                                />
+                            </Tooltip>
+                            <div className="details-container">
+                                <span style={{ color: 'black' }} className='city-state'>{`${city}, ${state}`}</span>
+                                <span style={{ color: 'black' }} className='ratings'>
+                                    <i className="fa-solid fa-star"></i>
+                                    {rating}
+                                </span>
+                            </div>
+                            <div style={{ color: 'black' }} className='price'>{`$${price} night`}</div>
 
-            return (
-                <a href={`/spots/${id}`}
-                    className="spot"
-                    key={id}
-                >
-                    <Tooltip
-                        content={name}
-                        direction="up"
-                        tagName="span"
-                        className='target'>
-                        <img src={previewImg}
-                            className='spotImg'
-                            alt={name}
-                        />
-                    </Tooltip>
-                    <div>{`${city}, ${state}`}</div>
-                    <div>{`$${price} night`}</div>
-                    <span>{rating}</span>
-                </a >
-            )
-        })
+                        </a >
+                    </div>
+                )
+            })
+        }
     }
 
 

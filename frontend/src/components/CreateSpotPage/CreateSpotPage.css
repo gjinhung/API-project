@@ -1,0 +1,44 @@
+.createSpotPage{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.spot-form{
+    width: 600px;
+}
+
+.cityState{
+    display: grid;
+    grid-template-columns: 380px 10px 198px;
+}
+
+.latLng{
+    display: grid;
+    grid-template-columns: 320px 10px 258px;
+
+}
+
+.comma{
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 10px;
+}
+
+.create-button-content {
+    border: solid;
+    border-width: 5px;
+    background-color: rgb(255, 203, 5);
+    border-color: rgb(42, 117, 187);
+    box-shadow: 5px 2px grey;
+    text-align: center;
+    margin-top: 10px;
+    width: 200px
+}
+
+.create-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

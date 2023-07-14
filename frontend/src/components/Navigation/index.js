@@ -20,7 +20,7 @@ function Navigation({ isLoaded }) {
 
     if (sessionUser) {
         createNewSpotLink =
-            (<NavLink to="/spots/new" style={{ color: "white" }}>
+            (<NavLink to="/spots/new" style={{ color: "white" }} key="new">
                 Create a New Spot
             </NavLink>)
     }
@@ -33,7 +33,6 @@ function Navigation({ isLoaded }) {
             </div>
             {isLoaded && createNewSpotLink}
             {sessionLinks}
-
         </header>
     );
 }

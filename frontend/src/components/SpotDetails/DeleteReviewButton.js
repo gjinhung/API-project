@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import "./DeleteModal.css"
+import "./DeleteReviewModal.css"
+import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
+import * as reviewActions from '../../store/reviews'
 import * as spotActions from '../../store/spots'
 
-export const DeleteButton = ({ spotId }) => {
+export const DeleteReviewButton = ({ id }) => {
+    let { spotId } = useParams()
     const dispatch = useDispatch()
     const [deleteModal, setDeleteModal] = useState(false);
 
@@ -11,18 +14,19 @@ export const DeleteButton = ({ spotId }) => {
         setDeleteModal(!deleteModal)
     }
 
-    const deleteSpot = async () => {
-        await dispatch(spotActions.deleteSpot(spotId))
+    const deleteReview = async () => {
+        await dispatch(reviewActions.deleteReviews(id))
+        await dispatch(spotActions.spots())
+        await dispatch(spotActions.spotDetails(spotId))
         await toggleModal()
-        await window.location.reload(false);
     }
 
     let showConfirmDelete = (
         <>
             <h1>Confirm Delete</h1>
-            <h3>Are you sure you want to remove this spot from the listings?</h3>
-            <button onClick={deleteSpot} className='deleteButtonYes'>{`Yes (Delete Spot)`}</button>
-            <button onClick={toggleModal} className='deleteButtonNo'>{`No (Keep Spot)`}</button>
+            <h3>Are you sure you want to remove this review?</h3>
+            <button onClick={deleteReview}>{`Yes (Delete Review)`}</button>
+            <button onClick={toggleModal}>{`No (Keep Review)`}</button>
 
         </>
     )
@@ -35,7 +39,7 @@ export const DeleteButton = ({ spotId }) => {
 
     return (
         <>
-            <button onClick={toggleModal} className="deleteButton">Delete</button>
+            <nav onClick={toggleModal} className="linkText">Delete</nav>
             {deleteModal && (
                 <div className="modal">
                     <div onClick={toggleModal} className="overlay"></div>

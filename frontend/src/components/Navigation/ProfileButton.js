@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import { useMenu } from "../../context/ShowMenuContext";
+import { useHistory } from "react-router-dom";
 
 import './Navigation.css';
 import "./Modal.css";
@@ -13,6 +14,7 @@ import ModalFunction from "./Modal";
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const { showMenu, setShowMenu } = useMenu();
+    const history = useHistory()
 
     const ulRef = useRef();
 
@@ -38,6 +40,8 @@ function ProfileButton({ user }) {
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout());
+        setShowMenu(!showMenu)
+        history.push('/')
     };
 
     let dropdown
