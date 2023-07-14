@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./LoginForm.css";
 
-function LoginFormPage() {
+const LoginFormPage = () => {
     const dispatch = useDispatch();
     const history = useHistory()
     const [credential, setCredential] = useState("");

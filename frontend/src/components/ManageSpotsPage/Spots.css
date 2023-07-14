@@ -1,0 +1,127 @@
+*{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.spotsContainer{
+  /**
+   * User input values.
+   */
+   --grid-layout-gap: 20px;
+   --grid-column-count: 4; /* This gets overridden by an inline style. */
+   --grid-item--min-width: 200px; /* This gets overridden by an inline style. */
+   
+   /**
+    * Calculated values.
+    */
+   --gap-count: calc(var(--grid-column-count) - 1);
+   --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
+   --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
+ 
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
+   grid-gap: var(--grid-layout-gap);
+   grid-row-gap: 48px;
+   grid-column-gap: 20px;
+   padding: 40px;
+ }
+
+.spot{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    font-size: 13px;
+    grid-template-areas: 
+    "header"
+    "cs r"
+    "p";
+    color: black
+}
+
+.details-container{
+    display: flex;
+    justify-content: space-between
+}
+.spotImg{
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 1/1;
+    width: 100%;
+    z-index: 0;
+    grid-area:header;
+}
+
+.spot-link {
+    text-decoration: none;
+}
+
+.price{
+    grid-area: p;
+    padding-top: 5px;
+}
+
+.city-state{
+    grid-area: cs;
+    padding-top: 5px;
+}
+
+.ratings {
+    grid-area:r
+}
+.react-tooltip-lite {
+    background: white;
+    border: solid;
+    border-radius: .5rem;
+    border-color: black;
+    color: red;
+    text-align: center !important;
+  }
+  
+  .react-tooltip-lite-arrow {
+    border-color: #333;
+  }
+
+  .updateButton{
+    border: solid;
+    border-width: 5px;
+    background-color: rgb(255, 203, 5);
+    border-color: rgb(42, 117, 187);
+    box-shadow: 5px 2px grey;
+    text-align: center;
+    margin-top: 10px;
+    width: fit-content;
+    margin-right: 10px
+  }
+
+  .deleteButton{
+    border: solid;
+    border-width: 5px;
+    background-color: rgb(255, 203, 5);
+    border-color: rgb(42, 117, 187);
+    box-shadow: 5px 2px grey;
+    text-align: center;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  .deleteButtonYes{
+    border: solid;
+    border-width: 5px;
+    background-color: rgb(255, 203, 5);
+    border-color: rgb(42, 117, 187);
+    box-shadow: 5px 2px grey;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .deleteButtonNo{
+    border: solid;
+    border-width: 5px;
+    background-color: rgb(255, 203, 5);
+    border-color: rgb(42, 117, 187);
+    box-shadow: 5px 2px grey;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
