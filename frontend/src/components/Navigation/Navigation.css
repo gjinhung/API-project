@@ -18,9 +18,13 @@ header{
     padding-left: 20px;
 }
 
+.pokeball{
+    height: 35px
+}
+
 .fas{
     color: rgb(202, 200, 200);
-    font-size: x-large;
+    height: 2%
 }
 
 .fa-user-circle{
@@ -69,4 +73,18 @@ header{
     text-decoration: none;
     color: black;
     cursor: pointer;
+}
+
+.createSpotButton{
+    text-decoration: none;
+    color: white;
+    padding-right: 20px;
+    justify-self: center;
+}
+
+.menu-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
 }

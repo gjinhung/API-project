@@ -6,9 +6,10 @@ html, body, input, textarea, button, select, a {
   button {
     border: 0;
     background: none;
-    font-weight: 700;
-    text-transform: uppercase;
+    font-weight: normal;
     cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px
   }
 
   button:disabled {

@@ -70,14 +70,22 @@
     grid-area:r
 }
 .react-tooltip-lite {
-    background: white;
-    border: solid;
+    background-color: rgba(181,181,181,255);
+    border-style: double;
+    border-color: rgba(47,47,47,255);
     border-radius: .5rem;
-    border-color: black;
-    color: red;
-    text-align: center !important;
+    color: black;
+    /* height: 50px;
+    background-color: rgba(181,181,181,255);
+    background-image: url("../../images/pokemon-dialog-box.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    text-align: center !important; */
   }
   
+
   .react-tooltip-lite-arrow {
     border-color: #333;
   }
@@ -87,3 +95,5 @@
     align-content: flex-end;
     padding-top: 5px;
   }
+
+  

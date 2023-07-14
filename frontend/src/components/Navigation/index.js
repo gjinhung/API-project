@@ -31,7 +31,6 @@ function Navigation({ isLoaded }) {
             <div>
                 <Logo></Logo>
             </div>
-            {isLoaded && createNewSpotLink}
             {sessionLinks}
         </header>
     );
