@@ -21,6 +21,7 @@ export const ModalLogin = () => {
         if (response.user) {
             setShowMenu(false);
             history.push('/')
+            document.body.classList.remove('active-modal')
         }
         else {
             setErrors(response.message)
@@ -75,6 +76,7 @@ export const ModalLogin = () => {
                         <input
                             type="password"
                             value={password}
+                            autoComplete="on"
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
@@ -87,7 +89,7 @@ export const ModalLogin = () => {
                     type="submit">Log In</button>
                 <div className="demoButton">
                     <button onClick={demoUser} className="demouser">
-                        Demo User
+                        Log in as Demo User
                     </button>
                 </div>
             </form >

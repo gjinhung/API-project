@@ -127,7 +127,8 @@ router.get('/',
           where: { spotId: spot.id },
           raw: true
         })
-        review.forEach(async (rev) => {
+
+        review.forEach((rev) => {
           total += rev.stars;
           count++
         })
@@ -143,6 +144,10 @@ router.get('/',
 
         if (total / count) {
           spot.avgRating = total / count
+        }
+
+        if (count === 0) {
+          spot.avgRating = 0
         }
         if (prevImg) {  //if there is an old image marked true
           spot.previewImg = prevImg.url

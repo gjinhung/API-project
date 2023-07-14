@@ -1,53 +1,81 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import * as reviewActions from '../../store/reviews'
+import { PostReviewButton } from './PostReviewButton';
+import { DeleteReviewButton } from './DeleteReviewButton';
 
 import "./SpotDetails.css"
 
 export const Reviews = ({ spotId, rating, numReviews }) => {
     const dispatch = useDispatch()
     const reviews = useSelector(state => state.reviews)
+    const user = useSelector(state => state.session)
 
     useEffect(() => {
         dispatch(reviewActions.reviews(spotId))
-    }, [dispatch]);
+    }, [dispatch, spotId]);
 
     const normalizedReviews = Object.values(reviews)
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
+
+
     let showReviews
     let showNew
+
+
     if (numReviews === 0) {
-        showNew = (<>New</>)
+        showNew = (<>
+            New
+            <div>
+                <PostReviewButton
+                    reviews={reviews} />
+            </div>
+        </>)
     } else {
+        let reviewWord = "Reviews"
+        if (numReviews < 2) {
+            reviewWord = "Review"
+        }
+
+
         showNew = (
-            <>
-                <span>{`${rating} · `}</span>
-                <span className='reserveReviewRating'>{`${numReviews} reviews`}</span>
-            </>
+            <span>
+                <span>{`${rating}· `}</span>
+                <span className='reserveReviewRating'>{`${numReviews} ${reviewWord}`}</span>
+                <div>
+                    <PostReviewButton
+                        reviews={reviews} />
+                </div>
+            </span>
         )
     }
 
     if (normalizedReviews[0]) {
+
+        normalizedReviews.sort((a, b) => a.createdAt > b.createdAt ? 1 : -1)
         showReviews = normalizedReviews.map((rev) => {
+            let showDeleteButton
             const { firstName } = rev.User
-            const { id, review, updatedAt } = rev
+            const { id, review, updatedAt, userId } = rev
+            if (user.user) {
+                if (userId === user.user.id) {
+                    showDeleteButton = (
+                        <DeleteReviewButton id={id} />
+                    )
+                }
+            }
 
             const date = new Date(updatedAt)
             const month = monthNames[date.getMonth()]
             const year = date.getFullYear()
             return (
                 <div className='reviewBox' key={id} >
-                    <div>
-                        {firstName}
-                    </div>
-                    <div>
-                        {`${month} ${year}`}
-                    </div>
-                    <div >
-                        {review}
-                    </div>
+                    <div>{firstName}</div>
+                    <div style={{ color: "lightgray" }}>{`${month} ${year}`}</div>
+                    <div>{review}</div>
+                    <div>{showDeleteButton}</div>
                 </div>
             )
         })
@@ -58,12 +86,7 @@ export const Reviews = ({ spotId, rating, numReviews }) => {
     return (
         <>
             <div className="reviewTop">
-                <span className='reserveReviews'>
-                    <span className="material-symbols-outlined">
-                        star
-                    </span>
-                    {showNew}
-                </span>
+                <i className="fa-solid fa-star"></i>{showNew}
             </div>
             {showReviews}
         </>

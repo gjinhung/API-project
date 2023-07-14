@@ -10,19 +10,15 @@ export const ReserveButton = ({ price, rating, numReviews }) => {
     if (numReviews === 0) {
         show = (
             <>
-                <span className="material-symbols-outlined">
-                    star
-                </span>
-                <span>{`New`}</span>
+
+                <span> <i className="fa-solid fa-star"></i>{`New`}</span>
             </>
         )
 
     } else {
         show = (
             <>
-                <span className="material-symbols-outlined">
-                    star
-                </span>
+                <i className="fa-solid fa-star"></i>
                 <span>{`${rating} · `}</span>
                 <span className='reserveReviewRating'>{`${numReviews} reviews`}</span>
             </>
@@ -31,13 +27,15 @@ export const ReserveButton = ({ price, rating, numReviews }) => {
 
     return (
         <div className='reserveBox'>
-            <span style={{ width: 300 }} className='reservePrice'>{`$${price} night`}</span>
-            <span className='reserveReviews'>
-                {show}
-            </span>
-            <div className='reserveButton'>
-                <button className='reserve' style={{ width: 300 }} onClick={handleClick}>RESERVE</button>
+            <div className='reserveBox-top'>
+                <span className='reservePrice'>{`$${price} night`}</span>
+                <span className='reserveReviews'>
+                    {show}
+                </span>
             </div>
+
+            <button className='reserve' onClick={handleClick}>RESERVE</button>
+
         </div >
     )
 }

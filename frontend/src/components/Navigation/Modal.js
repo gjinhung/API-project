@@ -1,10 +1,7 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState } from "react";
 import { ModalLogin } from './ModalLogin'
+import { ModalSignup } from "./ModalSignUp";
 import "./Modal.css";
-
-export const ModalContext = createContext();
-
-export const useModal = () => useContext(ModalContext);
 
 export default function Modal() {
     const [modal, setModal] = useState(false);
@@ -15,9 +12,17 @@ export default function Modal() {
         setModalType('login')
     };
 
+    const toggleModalSignup = () => {
+        setModal(!modal);
+        setModalType('signup')
+    };
+
     let show
     if (modalType === 'login') {
         show = <ModalLogin />
+    }
+    if (modalType === 'signup') {
+        show = <ModalSignup />
     }
 
 
@@ -27,13 +32,19 @@ export default function Modal() {
         document.body.classList.remove('active-modal')
     }
 
+
+
     return (
         <>
-            <nav
-                to='/spots/new'
-                className="linkText">
-                Sign up
-            </nav>
+            <nav onClick={toggleModalSignup} className="linkText">SignUp</nav>
+            {modal && (
+                <div className="modal">
+                    <div onClick={toggleModalSignup} className="overlay"></div>
+                    <div className="modal-content">
+                        {show}
+                    </div>
+                </div>
+            )}
 
 
             <nav onClick={toggleModalLogin} className="linkText">Login</nav>

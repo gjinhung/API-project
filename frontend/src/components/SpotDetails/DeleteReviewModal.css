@@ -80,14 +80,3 @@ input{
     color: red;
     padding-bottom: 10px;
 }
-
-.delete-modal{
-    border: solid;
-    border-width: 5px;
-    background-color: rgb(255, 203, 5);
-    border-color: rgb(42, 117, 187);
-    box-shadow: 5px 2px grey;
-    text-align: center;
-    margin-top: 10px;
-    width: fit-content;
-}

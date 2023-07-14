@@ -3,34 +3,72 @@
 }
 
 .spotsPage{
-    /* background-color: red; */
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-grid-row-gap: 48px;
-grid-column-gap: 20px;
-padding: 40px;
-}
+  /**
+   * User input values.
+   */
+   --grid-layout-gap: 20px;
+   --grid-column-count: 4; /* This gets overridden by an inline style. */
+   --grid-item--min-width: 200px; /* This gets overridden by an inline style. */
+   
+   /**
+    * Calculated values.
+    */
+   --gap-count: calc(var(--grid-column-count) - 1);
+   --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
+   --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
+ 
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
+   grid-gap: var(--grid-layout-gap);
+   grid-row-gap: 48px;
+   grid-column-gap: 20px;
+   padding: 40px;
+ }
 
 .spot{
-    display: block;
-    height: 100%;
-    /* position: absolute; */
-    /* top: 0;
-    width: 100%; */
-    /* outline: none; */
-    /* background-color: aqua; */
-    /* grid-template-columns: 50%, 50%; */
+
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    font-size: 13px;
+    grid-template-areas: 
+    "header"
+    "cs r"
+    "p";
+    color: black
 }
 
-
+.details-container{
+    display: flex;
+    justify-content: space-between
+}
 .spotImg{
     object-fit: cover;
     object-position: center;
-    height:100%;
+    aspect-ratio: 1/1;
     width: 100%;
     z-index: 0;
+    grid-area:header;
 }
 
+.spot-link {
+    text-decoration: none;
+}
+
+.price{
+    grid-area: p;
+    padding-top: 5px;
+}
+
+.city-state{
+    grid-area: cs;
+    padding-top: 5px;
+}
+
+.ratings {
+    grid-area:r
+}
 .react-tooltip-lite {
     background: white;
     border: solid;
