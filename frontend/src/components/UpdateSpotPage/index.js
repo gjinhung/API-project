@@ -164,181 +164,188 @@ const UpdateSpotPage = () => {
 
     return (
         <>
-            <div className="demoButton">
-                <button onClick={demoUpdate} className="demouser">
-                    Demo Update
-                </button>
+            <div className="new-spot-page-container">
+                <div className='new-spot-form-container'>
+                    <button onClick={demoUpdate} className="demouser">
+                        Demo Update
+                    </button>
+
+                    <div className='new-spot-page'>
+                        <h1 className='title'>Update your Spot</h1>
+                        <h3>Where's your place located?</h3>
+                        <h5>Guests will only get your exact address once they booked a reservation.</h5>
+                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="spot-first-section">
+                            <label>Country </label>
+                            <span style={{ color: "red" }}>{errorsList.country}</span>
+                            <input type="text"
+                                value={country}
+                                placeholder="Country"
+                                onChange={(e) => setCountry(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <label>Street Address </label>
+                            <span style={{ color: "red" }}>{errorsList.address}</span>
+                            <input
+                                type="text"
+                                placeholder="Address"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </div>
+                        <div className='cityState'>
+                            <div className="city">
+                                <label>City </label>
+                                <span style={{ color: "red" }}>{errorsList.city}</span>
+                                <input
+                                    type="text"
+                                    placeholder="City"
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                />
+                            </div>
+                            <div className='comma'> ,</div>
+                            <div className='state'>
+                                <label>State </label>
+                                <span style={{ color: "red" }}>{errorsList.state}</span>
+                                <input
+                                    type="text"
+                                    placeholder="State"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className='latLng'>
+                            <div className='lat'>
+                                <label>Latitude</label>
+                                <input
+                                    type="text"
+                                    placeholder="Latitude"
+                                    value={lat}
+                                    onChange={(e) => setLat(e.target.value)}
+                                />
+                            </div>
+                            <div className='comma'> ,</div>
+                            <div className='lng'>
+                                <label>Longitude</label>
+                                <input
+                                    type="text"
+                                    placeholder="Longitude"
+                                    value={lng}
+                                    onChange={(e) => setLng(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <hr></hr>
+                        <div className="spot-second-section">
+                            <h3>Describe your place to guests</h3>
+                            <h5>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</h5>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Description"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </div>
+                            <div style={{ color: "red" }}>{errorsList.description}</div>
+                        </div>
+                        <hr></hr>
+                        <div className="spot-third-section">
+                            <h3>Create a title for your spot</h3>
+                            <h5>Catch guests' attention with a spot title that highlights what makes your place special.</h5>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Name of your spot"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </div>
+                            <div style={{ color: "red" }}>{errorsList.name}</div>
+                        </div>
+                        <hr></hr>
+                        <div className="spot-fourth-section">
+                            <h3>Set a base price for your spot</h3>
+                            <h5>Competitive pricing can help your listing stand out and rank higher in search results.</h5>
+                            <div>
+                                $
+                                <input
+                                    type="text"
+                                    placeholder="Price per night (USD)"
+                                    value={price}
+                                    onChange={formatPrice}
+                                />
+                            </div>
+                            <div style={{ color: "red" }}>{errorsList.price}</div>
+                        </div>
+                        <hr></hr>
+                        <div className="spot-fifth-section">
+                            <h3>Liven up your spot with photos</h3>
+                            <h5>Submit a link to at least one photo to publish your spot.</h5>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Preview Image URL"
+                                    value={prevImg.url}
+                                    onChange={(e) => setPrevImg({ url: e.target.value, preview: true }
+                                    )}
+                                />
+                            </div>
+                            <div style={{ color: "red" }}>{errorsList.prevImg}</div>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Image URL"
+                                    value={img1.url}
+                                    onChange={(e) => setImg1({ url: e.target.value, preview: false }
+                                    )}
+                                />
+                            </div>
+                            <div style={{ color: "red" }}>{errorsList.img1}</div>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Image URL"
+                                    value={img2.url}
+                                    onChange={(e) => setImg2({ url: e.target.value, preview: false }
+                                    )}
+                                />
+                            </div>
+                            <div style={{ color: "red" }}>{errorsList.img2}</div>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Image URL"
+                                    value={img3.url}
+                                    onChange={(e) => setImg3({ url: e.target.value, preview: false }
+                                    )}
+                                />
+                            </div>
+                            <div style={{ color: "red" }}>{errorsList.img3}</div>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Image URL"
+                                    value={img4.url}
+                                    onChange={(e) => setImg4({ url: e.target.value, preview: false }
+                                    )}
+                                />
+                            </div>
+                            <div style={{ color: "red" }}>{errorsList.img4}</div>
+                        </div>
+                        <hr></hr>
+                        <div className='update-button'>
+                            <button
+                                className="update-button-content"
+                                type="submit">Update Spot</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div className='new-spot-page'>
-                <h1 className='title'>Update your Spot</h1>
-                <h3>Where's your place located?</h3>
-                <h5>Guests will only get your exact address once they booked a reservation.</h5>
-            </div>
-            <form onSubmit={handleSubmit}>
-                <div className="spot-first-section">
-                    <label>Country </label>
-                    <span style={{ color: "red" }}>{errorsList.country}</span>
-                    <input type="text"
-                        value={country}
-                        placeholder="Country"
-                        onChange={(e) => setCountry(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label>Street Address </label>
-                    <span style={{ color: "red" }}>{errorsList.address}</span>
-                    <input
-                        type="text"
-                        placeholder="Address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <span>
-                        <label>City </label>
-                        <span style={{ color: "red" }}>{errorsList.city}</span>
-                        <input
-                            type="text"
-                            placeholder="City"
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                        />
-                    </span>
-                    <span>
-                        <label>State </label>
-                        <span style={{ color: "red" }}>{errorsList.state}</span>
-                        <input
-                            type="text"
-                            placeholder="State"
-                            value={state}
-                            onChange={(e) => setState(e.target.value)}
-                        />
-                    </span>
-                </div>
-                <div>
-                    <span>
-                        <label>Latitude</label>
-                        <input
-                            type="text"
-                            placeholder="Latitude"
-                            value={lat}
-                            onChange={(e) => setLat(e.target.value)}
-                        />
-                    </span>
-                    <span>
-                        <label>Longitude</label>
-                        <input
-                            type="text"
-                            placeholder="Longitude"
-                            value={lng}
-                            onChange={(e) => setLng(e.target.value)}
-                        />
-                    </span>
-                </div>
-                <hr></hr>
-                <div className="spot-second-section">
-                    <h3>Describe your place to guests</h3>
-                    <h5>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</h5>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </div>
-                    <div style={{ color: "red" }}>{errorsList.description}</div>
-                </div>
-                <hr></hr>
-                <div className="spot-third-section">
-                    <h3>Create a title for your spot</h3>
-                    <h5>Catch guests' attention with a spot title that highlights what makes your place special.</h5>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Name of your spot"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </div>
-                    <div style={{ color: "red" }}>{errorsList.name}</div>
-                </div>
-                <hr></hr>
-                <div className="spot-fourth-section">
-                    <h3>Set a base price for your spot</h3>
-                    <h5>Competitive pricing can help your listing stand out and rank higher in search results.</h5>
-                    <div>
-                        $
-                        <input
-                            type="text"
-                            placeholder="Price per night (USD)"
-                            value={price}
-                            onChange={formatPrice}
-                        />
-                    </div>
-                    <div style={{ color: "red" }}>{errorsList.price}</div>
-                </div>
-                <hr></hr>
-                <div className="spot-fifth-section">
-                    <h3>Liven up your spot with photos</h3>
-                    <h5>Submit a link to at least one photo to publish your spot.</h5>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Preview Image URL"
-                            value={prevImg.url}
-                            onChange={(e) => setPrevImg({ url: e.target.value, preview: true }
-                            )}
-                        />
-                    </div>
-                    <div style={{ color: "red" }}>{errorsList.prevImg}</div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Image URL"
-                            value={img1.url}
-                            onChange={(e) => setImg1({ url: e.target.value, preview: false }
-                            )}
-                        />
-                    </div>
-                    <div style={{ color: "red" }}>{errorsList.img1}</div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Image URL"
-                            value={img2.url}
-                            onChange={(e) => setImg2({ url: e.target.value, preview: false }
-                            )}
-                        />
-                    </div>
-                    <div style={{ color: "red" }}>{errorsList.img2}</div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Image URL"
-                            value={img3.url}
-                            onChange={(e) => setImg3({ url: e.target.value, preview: false }
-                            )}
-                        />
-                    </div>
-                    <div style={{ color: "red" }}>{errorsList.img3}</div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Image URL"
-                            value={img4.url}
-                            onChange={(e) => setImg4({ url: e.target.value, preview: false }
-                            )}
-                        />
-                    </div>
-                    <div style={{ color: "red" }}>{errorsList.img4}</div>
-                </div>
-                <hr></hr>
-                <button
-                    className="create-button"
-                    type="submit">Update Spot</button>
-            </form>
         </>
     )
 }

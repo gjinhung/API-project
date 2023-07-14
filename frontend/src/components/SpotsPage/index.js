@@ -38,6 +38,7 @@ const SpotsPage = () => {
                                 tagName="span"
                                 className='target'
                             >
+
                                 <img src={previewImg}
                                     style={{ color: 'black' }}
                                     className='spotImg'

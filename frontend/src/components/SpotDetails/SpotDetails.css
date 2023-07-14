@@ -65,20 +65,24 @@ hr.solid {
     display:grid;
     grid-template-rows: 100%;
     grid-template-columns: 50% 50%;
+    grid-template-areas:
+    "left right";
 }
 
 .section1{
+    grid-area: left;
     grid-row: span 2 ;
     grid-column: span 1;
    padding-right: 5px;
 }
 
 .section2 {
+    grid-area: right;
     display: grid;
     grid-gap:5px;
-grid-row: 1/2;
-grid-column: 2/3;
-grid-template-columns: repeat(auto-fill, minmax());
+grid-template-columns: repeat(2, minmax(0,1fr));
+grid-template-rows: repeat(2, minmax(0,1fr));
+/* grid-template-columns: repeat(auto-fill, minmax()); */
 grid-template-areas: 
 "a b"
 "c d";
@@ -95,7 +99,6 @@ grid-template-areas:
 
 .one {
     grid-area: a;
-    ;
 }
 
 .two {

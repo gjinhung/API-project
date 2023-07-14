@@ -59,3 +59,14 @@ header{
     text-decoration: underline;
     cursor: pointer;
     }
+
+.manage-spots{
+    text-decoration: none;
+    color: black
+}
+
+.logout-button{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}

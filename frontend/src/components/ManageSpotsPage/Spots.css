@@ -40,7 +40,8 @@
 
 .details-container{
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
+    text-decoration: none;
 }
 .spotImg{
     object-fit: cover;
@@ -51,9 +52,9 @@
     grid-area:header;
 }
 
-.spot-link {
+/* .spot-link {
     text-decoration: none;
-}
+} */
 
 .price{
     grid-area: p;
@@ -63,10 +64,14 @@
 .city-state{
     grid-area: cs;
     padding-top: 5px;
+    text-decoration: none;
+    color:black
 }
 
 .ratings {
-    grid-area:r
+    grid-area:r;
+    text-decoration: none;
+    color:black
 }
 .react-tooltip-lite {
     background: white;
@@ -124,4 +129,28 @@
     text-align: center;
     margin-bottom: 20px;
     width: 100%;
+  }
+
+  .ratings{
+    display: flex;
+    align-content: flex-end;
+    padding-top: 5px;
+  }
+
+  .manage-spots-title{
+    margin-top: 20px;
+    margin-left: 40px;
+    font-size: 30px
+  }
+
+  .new-spot-button{
+    margin-left: 40px;
+    border: solid;
+    border-width: 5px;
+    background-color: rgb(255, 203, 5);
+    border-color: rgb(42, 117, 187);
+    box-shadow: 5px 2px grey;
+    text-align: center;
+    margin-top: 10px;
+    width: fit-content;
   }

@@ -81,3 +81,9 @@
   .react-tooltip-lite-arrow {
     border-color: #333;
   }
+
+  .ratings{
+    display: flex;
+    align-content: flex-end;
+    padding-top: 5px;
+  }

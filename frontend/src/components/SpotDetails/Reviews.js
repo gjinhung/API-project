@@ -10,6 +10,8 @@ export const Reviews = ({ spotId, rating, numReviews }) => {
     const dispatch = useDispatch()
     const reviews = useSelector(state => state.reviews)
     const user = useSelector(state => state.session)
+    const spot = useSelector(state => state.spots)
+    console.log(spot.name)
 
     useEffect(() => {
         dispatch(reviewActions.reviews(spotId))
@@ -30,7 +32,9 @@ export const Reviews = ({ spotId, rating, numReviews }) => {
             New
             <div>
                 <PostReviewButton
-                    reviews={reviews} />
+                    reviews={reviews}
+                    name={spot.name}
+                />
             </div>
         </>)
     } else {
