@@ -221,12 +221,16 @@ const CreateSpotPage = () => {
                         <h3>Describe your place to guests</h3>
                         <h5>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</h5>
                         <div>
-                            <input
-                                type="text"
+                            <textarea
+                                name="text"
+                                rows={5}
+                                cols={70}
                                 placeholder="Description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                            />
+                            >
+                            </textarea>
+
                         </div>
                         <div style={{ color: "red" }}>{errorsList.description}</div>
                     </div>

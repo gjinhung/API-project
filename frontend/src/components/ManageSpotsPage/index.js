@@ -71,9 +71,9 @@ const SpotsPage = () => {
     return (
         <div className="spots-page">
             <div className='manage-spots-title'>Manage Spots</div>
-
-            <button to="/spots/new" className="new-spot-button">Create a New Spot</button>
-
+            <div className='create-spot-container'>
+                <a href="/spots/new" class="new-spot-button">Create a New Spot</a>
+            </div>
             <div className='spotsContainer'>
                 {show}
             </div>

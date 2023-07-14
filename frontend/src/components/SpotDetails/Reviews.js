@@ -77,7 +77,7 @@ export const Reviews = ({ spotId, rating, numReviews }) => {
             return (
                 <div className='reviewBox' key={id} >
                     <div>{firstName}</div>
-                    <div style={{ color: "lightgray" }}>{`${month} ${year}`}</div>
+                    <div style={{ color: "gray" }}>{`${month} ${year}`}</div>
                     <div>{review}</div>
                     <div>{showDeleteButton}</div>
                 </div>

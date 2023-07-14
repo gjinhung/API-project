@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import { useMenu } from "../../context/ShowMenuContext";
 import { useHistory } from "react-router-dom";
+import pokeball from '../../images/pokeball-icon.png'
 
 import './Navigation.css';
 import "./Modal.css";
@@ -69,15 +70,26 @@ function ProfileButton({ user }) {
         )
     }
 
+    let createSpotButton
+
+    if (user) {
+        createSpotButton = (
+            <NavLink to="/spots/new" className='createSpotButton' key="new">
+                Create a New Spot
+            </NavLink>
+        )
+    }
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
         <div className='menu-container'>
+            {createSpotButton}
             <button onClick={openMenu}>
-                <i className="fas fa-user-circle" />
+                <img src={pokeball} className='pokeball' alt='pokeball' />
             </button>
-            <div className={ulClassName} ref={ulRef} >
+            <div
+                className={ulClassName} ref={ulRef} >
                 {dropdown}
             </div>
         </div>

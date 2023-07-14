@@ -5,6 +5,8 @@ import * as spotActions from '../../store/spots'
 import Tooltip from 'react-tooltip-lite'
 import { useMenu } from '../../context/ShowMenuContext';
 
+import pokemonback from '../../images/pokemon-card-back.png'
+
 import './Spots.css'
 
 const SpotsPage = () => {
@@ -38,8 +40,9 @@ const SpotsPage = () => {
                                 tagName="span"
                                 className='target'
                             >
-
                                 <img src={previewImg}
+                                    // onerror={(e) => { e.target.onerror = null; e.target.src = { pokemonback } }}
+
                                     style={{ color: 'black' }}
                                     className='spotImg'
                                     alt={name}
