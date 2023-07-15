@@ -60,7 +60,6 @@ export const ModalSignup = () => {
             document.body.classList.remove('active-modal')
         }
         else {
-            console.log(response)
             const { email, username } = response.errors
             setErrors((prevErrors) => ({ ...prevErrors, email, username }))
 

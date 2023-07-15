@@ -45,7 +45,7 @@ export const PostReviewModal = ({ user, spotId, name }) => {
 
         <form onSubmit={handleSubmit}>
             <div className='modal-title-container'>
-                <p className='modal-title'>How was your stay</p>
+                <p className='modal-title'>How was your stay?</p>
             </div>
             <div className='text-container'>
                 <textarea

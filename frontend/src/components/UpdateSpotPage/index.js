@@ -97,7 +97,6 @@ const UpdateSpotPage = () => {
         }
 
         if (!Object.keys(errors).length) {
-            console.log(`no errors`)
             const spot = {
                 address,
                 city,
@@ -118,7 +117,10 @@ const UpdateSpotPage = () => {
             //     img4
             // ]
 
-            await dispatch(spotActions.updateSpot({ spotId, spot }))
+            await dispatch(spotActions.updateSpot({ spotId, spot })).catch((response) => {
+                const data = response.json()
+                return data
+            })
             await dispatch(spotActions.spotDetails(spotId))
             // const spotId = createSpot.id
             // images.forEach(image => {

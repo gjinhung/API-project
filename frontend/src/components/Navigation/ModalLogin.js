@@ -48,7 +48,7 @@ export const ModalLogin = () => {
     }, [credential, password])
 
     const demoUser = () => {
-        setCredential('ashketchum');
+        setCredential('demo@user.com');
         setPassword('password')
     }
 

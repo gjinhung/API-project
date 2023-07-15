@@ -2,15 +2,22 @@
 
 const bcrypt = require('bcryptjs')
 
-let options = { tableName: "Users"}
-if (process.env.NODE_ENV === "production"){
+let options = { tableName: "Users" }
+if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA;
-  }
+}
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert(options, [
+      {
+        email: 'demo@user.com',
+        username: 'Demolition',
+        hashedPassword: bcrypt.hashSync('password'),
+        firstName: 'Demo-lition',
+        lastName: "User"
+      },
       {
         email: 'ash@pokemon.io',
         username: 'ashketchum',
@@ -35,7 +42,7 @@ module.exports = {
     ], {});
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     options.tableName = 'Users';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {

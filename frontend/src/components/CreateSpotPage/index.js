@@ -152,7 +152,7 @@ const CreateSpotPage = () => {
                     </button>
                 </div>
                 <div className='new-spot-page'>
-                    <h1 className='title'>Create a new Spot</h1>
+                    <h1 className='title'>Create a New Spot</h1>
                     <h3>Where's your place located?</h3>
                     <h5>Guests will only get your exact address once they booked a reservation.</h5>
                 </div>

@@ -24,7 +24,7 @@ export const DeleteReviewButton = ({ id }) => {
     let showConfirmDelete = (
         <>
             <h1>Confirm Delete</h1>
-            <h3>Are you sure you want to remove this review?</h3>
+            <h3>Are you sure you want to delete this review?</h3>
             <button onClick={deleteReview} className='deleteButtonYes'>{`Yes (Delete Review)`}</button>
             <button onClick={toggleModal} className='deleteButtonNo'>{`No (Keep Review)`}</button>
 
