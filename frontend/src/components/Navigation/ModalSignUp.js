@@ -38,9 +38,7 @@ export const ModalSignup = () => {
             setErrors((prevErrors) => ({ ...prevErrors, lastName: '' }))
         }
 
-        if (!errors.password && !errors.firstName && !errors.lastName) {
-
-
+        if ((password === confirmP) && firstName.search(/[^A-Za-z\s]/) === -1 && lastName.search(/[^A-Za-z\s]/) === -1) {
 
             const user = {
                 firstName,
@@ -66,8 +64,9 @@ export const ModalSignup = () => {
             }
 
         }
+    }
 
-    };
+
 
     const demoUser = () => {
         setFirstName('Tracey');
