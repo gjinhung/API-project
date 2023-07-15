@@ -5,7 +5,6 @@ import * as spotActions from '../../store/spots'
 import Tooltip from 'react-tooltip-lite'
 import { useMenu } from '../../context/ShowMenuContext';
 
-import pokemonback from '../../images/pokemon-card-back.png'
 
 import './Spots.css'
 

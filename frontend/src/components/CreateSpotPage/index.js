@@ -73,7 +73,6 @@ const CreateSpotPage = () => {
         }
 
         if (!Object.keys(errors).length) {
-            console.log(`no errors`)
             const spot = {
                 address,
                 city,
@@ -94,9 +93,15 @@ const CreateSpotPage = () => {
                 img4
             ]
 
-            let createSpot = await dispatch(spotActions.newSpot(spot))
+            let createSpot = await dispatch(spotActions.newSpot(spot)).catch((response) => {
+                const data = response.json()
+                return data
+            })
 
-            const spotId = createSpot.id
+            let spotId
+            if (createSpot.id) {
+                spotId = createSpot.id
+            }
             images.forEach(image => {
                 if (image.url) {
                     dispatch(spotActions.newImage({ spotId, image }))
@@ -225,7 +230,7 @@ const CreateSpotPage = () => {
                                 name="text"
                                 rows={5}
                                 cols={70}
-                                placeholder="Description"
+                                placeholder="Please write at least 30 characters"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             >
