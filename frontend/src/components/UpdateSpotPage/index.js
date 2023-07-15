@@ -106,30 +106,20 @@ const UpdateSpotPage = () => {
                 lat,
                 lng,
                 description,
-                price
+                price: Number(price)
             }
 
-            // const images = [
-            //     prevImg,
-            //     img1,
-            //     img2,
-            //     img3,
-            //     img4
-            // ]
 
-            await dispatch(spotActions.updateSpot({ spotId, spot })).catch((response) => {
+            const response = await dispatch(spotActions.updateSpot({ spotId, spot })).catch((response) => {
                 const data = response.json()
                 return data
             })
-            await dispatch(spotActions.spotDetails(spotId))
-            // const spotId = createSpot.id
-            // images.forEach(image => {
-            //     if (image.url) {
-            //         dispatch(spotActions.newImage({ spotId, image }))
-            //     }
-            // })
 
-            await history.push(`/spots/${spotId}`);
+            console.log(response)
+            dispatch(spotActions.spotDetails(spotId))
+
+
+            history.push(`/spots/${spotId}`);
 
 
         }
