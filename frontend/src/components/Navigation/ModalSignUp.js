@@ -38,34 +38,34 @@ export const ModalSignup = () => {
             setErrors((prevErrors) => ({ ...prevErrors, lastName: '' }))
         }
 
-        // if (!errors.password && !errors.firstName && !errors.lastName) {
+        if (!errors.password && !errors.firstName && !errors.lastName) {
 
 
 
-        const user = {
-            firstName,
-            lastName,
-            email,
-            username,
-            password
+            const user = {
+                firstName,
+                lastName,
+                email,
+                username,
+                password
+            }
+
+            const response = await dispatch(sessionActions.signup(user)).catch((response) => {
+                const data = response.json()
+                return data
+            })
+            if (response.user) {
+                setShowMenu(false);
+                history.push('/')
+                document.body.classList.remove('active-modal')
+            }
+            else {
+                const { email, username } = response.errors
+                setErrors((prevErrors) => ({ ...prevErrors, email, username }))
+
+            }
+
         }
-
-        const response = await dispatch(sessionActions.signup(user)).catch((response) => {
-            const data = response.json()
-            return data
-        })
-        if (response.user) {
-            setShowMenu(false);
-            history.push('/')
-            document.body.classList.remove('active-modal')
-        }
-        else {
-            const { email, username } = response.errors
-            setErrors((prevErrors) => ({ ...prevErrors, email, username }))
-
-        }
-
-        // }
 
     };
 
