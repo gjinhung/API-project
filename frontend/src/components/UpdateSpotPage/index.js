@@ -129,7 +129,7 @@ const UpdateSpotPage = () => {
             //     }
             // })
 
-            history.push(`/spots/${spotId}`);
+            await history.push(`/spots/${spotId}`);
 
 
         }
