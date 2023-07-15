@@ -18,6 +18,7 @@ const SpotsPage = () => {
 
 
     let show
+    let showCreate
     normalizedSpots.sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
 
     if (normalizedSpots[0]) {
@@ -60,6 +61,12 @@ const SpotsPage = () => {
                 )
             })
         }
+    } else {
+        showCreate = (
+            <div className='create-spot-container'>
+                <a href="/spots/new" class="new-spot-button">Create a New Spot</a>
+            </div>
+        )
     }
 
 
@@ -71,9 +78,7 @@ const SpotsPage = () => {
     return (
         <div className="spots-page">
             <div className='manage-spots-title'>Manage Spots</div>
-            <div className='create-spot-container'>
-                <a href="/spots/new" class="new-spot-button">Create a New Spot</a>
-            </div>
+            {showCreate}
             <div className='spotsContainer'>
                 {show}
             </div>

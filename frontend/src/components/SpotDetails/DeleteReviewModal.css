@@ -81,7 +81,7 @@ input{
     padding-bottom: 10px;
 }
 
-.linkText{
+.delete-review-button{
     border: solid;
     border-width: 5px;
     background-color: rgb(255, 203, 5);

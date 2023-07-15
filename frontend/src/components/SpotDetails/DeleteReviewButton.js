@@ -39,7 +39,7 @@ export const DeleteReviewButton = ({ id }) => {
 
     return (
         <>
-            <nav onClick={toggleModal} className="linkText">Delete</nav>
+            <nav onClick={toggleModal} className="delete-review-button">Delete</nav>
             {deleteModal && (
                 <div className="modal">
                     <div onClick={toggleModal} className="overlay"></div>

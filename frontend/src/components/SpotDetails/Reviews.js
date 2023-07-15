@@ -11,7 +11,6 @@ export const Reviews = ({ spotId, rating, numReviews }) => {
     const reviews = useSelector(state => state.reviews)
     const user = useSelector(state => state.session)
     const spot = useSelector(state => state.spots)
-    console.log(spot.name)
 
     useEffect(() => {
         dispatch(reviewActions.reviews(spotId))
@@ -59,7 +58,6 @@ export const Reviews = ({ spotId, rating, numReviews }) => {
     if (normalizedReviews[0]) {
 
         normalizedReviews.sort((a, b) => a.createdAt > b.createdAt ? -1 : 1)
-        console.log(normalizedReviews)
         showReviews = normalizedReviews.map((rev) => {
             let showDeleteButton
             const { firstName } = rev.User
