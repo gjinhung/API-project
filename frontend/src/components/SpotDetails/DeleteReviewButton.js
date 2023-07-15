@@ -25,8 +25,8 @@ export const DeleteReviewButton = ({ id }) => {
         <>
             <h1>Confirm Delete</h1>
             <h3>Are you sure you want to remove this review?</h3>
-            <button onClick={deleteReview}>{`Yes (Delete Review)`}</button>
-            <button onClick={toggleModal}>{`No (Keep Review)`}</button>
+            <button onClick={deleteReview} className='deleteButtonYes'>{`Yes (Delete Review)`}</button>
+            <button onClick={toggleModal} className='deleteButtonNo'>{`No (Keep Review)`}</button>
 
         </>
     )

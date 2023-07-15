@@ -58,7 +58,8 @@ export const Reviews = ({ spotId, rating, numReviews }) => {
 
     if (normalizedReviews[0]) {
 
-        normalizedReviews.sort((a, b) => a.createdAt > b.createdAt ? 1 : -1)
+        normalizedReviews.sort((a, b) => a.createdAt > b.createdAt ? -1 : 1)
+        console.log(normalizedReviews)
         showReviews = normalizedReviews.map((rev) => {
             let showDeleteButton
             const { firstName } = rev.User
