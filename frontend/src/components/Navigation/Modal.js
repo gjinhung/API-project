@@ -36,6 +36,15 @@ export default function Modal() {
 
     return (
         <>
+            <nav onClick={toggleModalLogin} className="linkText">Login</nav>
+            {modal && (
+                <div className="modal">
+                    <div onClick={toggleModalLogin} className="overlay"></div>
+                    <div className="modal-content">
+                        {show}
+                    </div>
+                </div>
+            )}
             <nav onClick={toggleModalSignup} className="linkText">SignUp</nav>
             {modal && (
                 <div className="modal">
@@ -47,15 +56,7 @@ export default function Modal() {
             )}
 
 
-            <nav onClick={toggleModalLogin} className="linkText">Login</nav>
-            {modal && (
-                <div className="modal">
-                    <div onClick={toggleModalLogin} className="overlay"></div>
-                    <div className="modal-content">
-                        {show}
-                    </div>
-                </div>
-            )}
+
         </>
     );
 }

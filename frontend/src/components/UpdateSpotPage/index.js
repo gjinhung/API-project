@@ -212,7 +212,7 @@ const UpdateSpotPage = () => {
                         </div>
                         <div className='latLng'>
                             <div className='lat'>
-                                <label>Latitude</label>
+                                <label>Latitude (optional)</label>
                                 <input
                                     type="text"
                                     placeholder="Latitude"
@@ -222,7 +222,7 @@ const UpdateSpotPage = () => {
                             </div>
                             <div className='comma'> ,</div>
                             <div className='lng'>
-                                <label>Longitude</label>
+                                <label>Longitude (optional)</label>
                                 <input
                                     type="text"
                                     placeholder="Longitude"
