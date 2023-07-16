@@ -27,9 +27,10 @@ const CreateSpotPage = () => {
 
     const { setShowMenu } = useMenu();
 
-    let errors = {}
+
 
     const handleSubmit = async (e) => {
+        let errors = {}
         e.preventDefault();
 
         if (!Number(price)) { setPrice(0) }
@@ -49,6 +50,12 @@ const CreateSpotPage = () => {
         if (name.length > 49) { errors.name = "Name must be less than 50 characters" }
 
         if (!price) { errors.price = "Price is required" }
+
+        if (!Number(price)) { errors.price = "Price is invalid" }
+
+        if ((Number(lat) > 90) || (Number(lat) < -90)) { errors.lat = "Latittude is invalid" }
+
+        if ((Number(lng) > 180) || (Number(lng) < -180)) { errors.lng = "Longitude is invalid" }
 
         if (!prevImg.url) { errors.prevImg = "Preview image is required" }
 
@@ -71,6 +78,7 @@ const CreateSpotPage = () => {
         if (img4.url && (!img4.url.endsWith('.png') && !img4.url.endsWith('.jpg') && !img4.url.endsWith('.jpeg'))) {
             errors.img4 = "Image URL must end in .png, .jpg, or .jpeg"
         }
+        // console.log(errors)
 
         if (!Object.keys(errors).length) {
             const spot = {
@@ -78,9 +86,9 @@ const CreateSpotPage = () => {
                 city,
                 state,
                 country,
+                lat: Number(lat),
+                lng: Number(lng),
                 name,
-                lat,
-                lng,
                 description,
                 price
             }
@@ -98,21 +106,25 @@ const CreateSpotPage = () => {
                 return data
             })
 
+
             let spotId
             if (createSpot.id) {
                 spotId = createSpot.id
+
+                images.forEach(image => {
+                    if (image.url) {
+                        dispatch(spotActions.newImage({ spotId, image }))
+                    }
+                })
+
+                history.push(`/spots/${spotId}`);
+            } else {
+                setErrorsList(createSpot.errors)
             }
-            images.forEach(image => {
-                if (image.url) {
-                    dispatch(spotActions.newImage({ spotId, image }))
-                }
-            })
 
-            history.push(`/spots/${spotId}`);
-
-
+        } else {
+            setErrorsList(errors)
         }
-        setErrorsList(errors)
     }
 
 
@@ -203,6 +215,7 @@ const CreateSpotPage = () => {
                     <div className='latLng'>
                         <div className='lat'>
                             <label>Latitude (optional)</label>
+                            <span style={{ color: "red" }}>{errorsList.lat}</span>
                             <input
                                 type="text"
                                 placeholder="Latitude"
@@ -213,6 +226,7 @@ const CreateSpotPage = () => {
                         <div className='comma'> ,</div>
                         <div className='lng'>
                             <label>Longitude (optional)</label>
+                            <span style={{ color: "red" }}>{errorsList.lng}</span>
                             <input
                                 type="text"
                                 placeholder="Longitude"
@@ -262,7 +276,7 @@ const CreateSpotPage = () => {
                             <input
                                 type="text"
                                 placeholder="Price per night (USD)"
-                                // value={price}
+                                value={price}
                                 onChange={formatPrice}
                             />
                         </div>

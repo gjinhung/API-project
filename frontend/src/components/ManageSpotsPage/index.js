@@ -26,7 +26,11 @@ const SpotsPage = () => {
 
             show = normalizedSpots.map((spot) => {
                 const { id, previewImg, city, state, price, name, avgRating } = spot
-                const rating = parseFloat(avgRating).toFixed(1);
+                let rating = parseFloat(avgRating).toFixed(1);
+                if (!Number(rating)) {
+                    rating = "New"
+                }
+
                 const updateButton = (e) => {
                     history.push(`/spots/${id}/edit`)
                 }
@@ -64,7 +68,7 @@ const SpotsPage = () => {
     } else {
         showCreate = (
             <div className='create-spot-container'>
-                <a href="/spots/new" class="new-spot-button">Create a New Spot</a>
+                <a href="/spots/new" className="new-spot-button">Create a New Spot</a>
             </div>
         )
     }
